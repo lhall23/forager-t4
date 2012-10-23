@@ -22,6 +22,10 @@ CREATE TABLE users (
 
 COMMENT ON TABLE users IS 'Rudimentary user login table.';
 
+INSERT INTO users(user_name,password) VALUES
+	('test', md5('test'));
+
+
 DROP TABLE IF EXISTS scans CASCADE;
 CREATE TABLE scans (
 	scan_id 	SERIAL PRIMARY KEY,
