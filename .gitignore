@@ -1,0 +1,6 @@
+.DS_Store
+*.aux
+*.log
+
+#These should be regenerated every time
+docs/Source/Source.pdf

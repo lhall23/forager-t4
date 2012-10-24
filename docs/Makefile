@@ -22,13 +22,15 @@ all: $(BODY) $(APPENDICES)
 	
 Source.pdf: APP_SEC=A
 Source.pdf: Source
-	find ../html -iname \*php -o -iname \*js |\
+	cd $<; \
+		$(PDFLATEX) $<.tex	
+	@echo; echo; echo;
+	@echo "+++ There are no code listings for the following files:"
+	@find ../html -iname \*php -o -iname \*js |\
 		while read FN; do\
 			grep "$$FN" Source/Source.tex || \
-				echo "+++ $$FN not included in source."; \
-		done
-	cd $(TITLE); \
-		$(PDFLATEX) $</$@.tex	
+				echo "\lstinputlisting{../$$FN}"; \
+		done; \
 
 Status_Reports.pdf: APP_SEC=B
 Status_Reports.pdf: Status_Reports templates/pdf_tmpl.tex
