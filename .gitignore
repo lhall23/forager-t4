@@ -1,6 +1,8 @@
 .DS_Store
 *.aux
 *.log
+*.pyc
+__pychache__
 
 #These should be regenerated every time
 docs/Source/Source.pdf
