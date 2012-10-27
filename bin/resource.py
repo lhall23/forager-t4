@@ -47,16 +47,31 @@ class resource:
         return "<resource: {0}>".format(self.url)
 
     def __eq__(self, other):
+        if (type(other) is str):
+            return  self.url==other
+
         return self.url == other.url
    
     def fetch(self):
         r=requests.get(self.url)
         self.fetched=True
         self.response_code=r.status_code
+        print(self.url)
+        if (r.headers.get('content-type').startswith('image')):
+            logging.debug("Skipped parsing image {0}".format(self.url))
+            return
+
         parsed=BeautifulSoup(r.text)
-        for link in parsed.find_all('a'):
-            can_link=self.canonicalize(link.get('href'))
-            self.children.append(can_link)
+        for link in parsed.find_all(['a', 'link']):
+            attr=link.get('href')
+            if (attr is None):
+                continue
+            self.children.append(self.canonicalize(attr))
+        for link in parsed.find_all(['script', 'img']):
+            attr=link.get('src')
+            if (attr is None):
+                continue
+            self.children.append(self.canonicalize(attr))
 
     def canonicalize(self, url):
         # Absolute URL

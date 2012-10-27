@@ -21,18 +21,19 @@ pending.append(resource("http://minerva.gtf.org/test/"))
 while (len(pending) > 0):
     logging.debug(pending)
     cur_resource=pending.popleft()
-    logging.info("Processing \"{0}\"".format(cur_resource))
 
     if (cur_resource.url in visited):
         logging.debug(
-            "Skipping already fetched URL \"{0}\"".format(cur_resource))
+            "Skipping already fetched URL \"{0}\"".format(cur_resource.url))
         continue
 
+    logging.info("Processing \"{0}\"".format(cur_resource.url))
 
     visited[cur_resource.url]=cur_resource
     cur_resource.fetch()
+    print(cur_resource.children)
     for child in cur_resource.children:
-        if (pending.count(cur_resource) > 0):
+        if (pending.count(child) > 0):
             logging.debug(
                 "Skipping already queued URL \"{0}\"".format(cur_resource.url))
             continue
