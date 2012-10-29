@@ -6,8 +6,11 @@ from resource import resource
 from collections import deque
 import logging
 
-DEBUG=False
-DOMAIN="gtf.org"
+DEBUG=True
+DOMAIN="spsu.edu"
+START_PAGE="http://spsu.edu/"
+# DOMAIN="gtf.org"
+# START_PAGE="http://minerva.gtf.org/test/"
 
 if (DEBUG):
     logging.basicConfig(level=logging.DEBUG)
@@ -15,33 +18,37 @@ if (DEBUG):
 else:
     logging.basicConfig(level=logging.INFO)
 
-visited={}
+resource_list={}
 pending=deque()
-pending.append(resource("http://minerva.gtf.org/test/"))
+pending.append(START_PAGE)
+resource_list[START_PAGE]=resource(START_PAGE)
+
 while (len(pending) > 0):
     logging.debug(pending)
-    cur_resource=pending.popleft()
+    cur_url=pending.popleft()
 
-    if (cur_resource.url in visited):
-        logging.debug(
-            "Skipping already fetched URL \"{0}\"".format(cur_resource.url))
-        continue
+    assert cur_url in resource_list, "{0} ".format(cur_url) + \
+         "was placed in the pending queue, but no resource was created"
+    cur_resource=resource_list[cur_url]
 
-    logging.info("Processing \"{0}\"".format(cur_resource.url))
+    assert not resource_list[cur_url].visited, \
+        "Already visited resource {0} was requeued".format(cur_url)
 
-    visited[cur_resource.url]=cur_resource
+    logging.info("Processing \"{0}\"".format(cur_url))
+
     cur_resource.fetch()
-    print(cur_resource.children)
-    for child in cur_resource.children:
-        if (pending.count(child) > 0):
+    for child_url in cur_resource.children:
+        if (child_url in resource_list):
             logging.debug(
-                "Skipping already queued URL \"{0}\"".format(cur_resource.url))
+                "Skipping existing URL \"{0}\"".format(child_url))
             continue
-        logging.debug("Queueing \"{0}\"".format(child))
-        new_resource=resource(child)
+        logging.debug("Queueing \"{0}\"".format(child_url))
+        new_resource=resource(child_url)
+        new_resource.parent=cur_resource
         if (not new_resource.domain.endswith(DOMAIN)):
             logging.debug(
                 "Skipping URL \"{0}\", outside of {1}".format(
-                    cur_resource.url, DOMAIN))
+                    child_url, DOMAIN))
             continue
-        pending.append(new_resource)
+        pending.append(child_url)
+        resource_list[child_url]=new_resource
