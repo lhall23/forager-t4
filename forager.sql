@@ -34,6 +34,13 @@ CREATE TABLE scans (
 );
 COMMENT ON TABLE scans IS 'List of scans, referenced by resources';
 
+INSERT INTO scans(scan_id,start_time,end_time) VALUES
+	(1, '10/31/2012 4:00', '10/31/2012 4:30'),
+	(2, '10/30/2012 16:00', '10/31/2012 0:01');
+
+SELECT setval('scans_scan_id_seq', max(scan_id)) FROM scans;
+
+
 DROP TABLE IF EXISTS resources CASCADE;
 CREATE TABLE resources (
 	resource_id		SERIAL PRIMARY KEY,
@@ -47,6 +54,17 @@ CREATE TABLE resources (
 	http_response	integer,
 	UNIQUE (scan_id,url)
 );
+
+INSERT INTO resources(resource_id,scan_id,url,parent_id,
+		start_date,response_time,http_response) VALUES
+	(1, 1, 'http://minerva.gtf.org/test/', NULL, 
+		'10/31/2012 4:00', '.1s', 200),
+	(1, 2, 'http://minerva.gtf.org/test/index.html', 1, 
+		'10/31/2012 4:01', '.1s', 200),
+	(1, 3, 'http://minerva.gtf.org/test/bork.html', 1, 
+		'10/31/2012 4:01', '.1s', 404);
+
+SELECT setval('resources_resource_id_seq', max(resource_id)) FROM resources;
 
 COMMENT ON TABLE resources IS 'List of pages retrieved. This forms a tree'
 	' for each scan, rooted at the node with a null parent_id. This is a'
