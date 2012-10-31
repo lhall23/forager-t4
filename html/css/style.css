@@ -1,0 +1,247 @@
+/* CSS Document */
+
+body {	
+	margin:0px;
+	padding:0px;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#464a4f;
+	background:url(../images/body-bg.jpg) repeat;
+	
+	}
+
+p, h1, h2, h3, h4, h5, h6, ul, li {
+	margin:0px;
+	padding:0px;
+	}
+	
+img {
+	border:none;
+	}
+	
+		
+	
+
+#container {
+	width:929px;
+	margin:6px auto;
+	
+	}
+	
+#header {
+	width:929px;
+	float:left;
+	background:url(../images/heaser-bg.jpg) no-repeat;
+	height:221px;
+	}	
+	
+#logo {	
+	width:88px;
+	float:left;
+	margin:73px 0px 0px 33px;
+	}
+	
+#logo-text {
+	font-family:Georgia, "Times New Roman", Times, serif;
+	font-size:40px;
+	color:#FFFFFF;
+	font-weight:normal;
+	float:left;
+	margin:88px 0px 0px 0px;
+	}
+
+#nav {
+	width:929px;
+	float:left;
+	background:url(../images/nav-bg.jpg) repeat-x;
+	height:38px;
+	}		
+	
+#nav ul {
+	margin:0px;
+	padding:0px;
+	list-style:none;
+	}
+	
+#nav ul li {	
+	float:left;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	color:#FFFFFF;
+	/*line-height:38px;*/
+	padding:3px 50px 3px 50px;
+	border-right:1px #00222a solid;
+	margin:7px 0px 0px 0px;
+	}	
+
+#nav ul li a {	
+	float:left;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	color:#FFFFFF;
+	text-decoration:none;
+	}
+	
+#nav ul li a:hover {	
+	float:left;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	color:#FFFFFF;
+	text-decoration:underline;
+	}	
+		
+#site-content {
+	width:929px;
+	float:left;
+	background:url(../images/site-bg.jpg) repeat-y;
+	
+	}
+	
+#col-right {
+	width:236px;
+	float:right;
+	
+	}
+	
+#col-left {
+	width:623px;
+	float:left;
+	padding:30px 35px 30px 35px;
+	}
+	
+
+#footer {
+	width:929px;
+	float:left;
+	border-top:8px #53666c solid;
+	clear:both; 
+	height:70px;
+	}
+
+.h-text-1 {
+
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:24px;
+	color:#020202;
+	font-weight:bold;
+	padding:0px 0px 15px 0px;
+	}
+	
+.h-text-2 {
+
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:18px;
+	color:#020202;
+	font-weight:bold;
+	padding:10px 0px 10px 0px;
+	}
+	
+.h-text-3 {
+
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#0000ff;
+	font-weight:bold;
+	padding:0px 0px 10px 15px;
+	background:url(../images/arr-2.jpg) no-repeat 0px 3px;
+	margin:10px 0px 0px 0px;
+	}
+
+
+.text-1 {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#464a4f;
+	padding:5px 0px 5px 0px;
+	}
+	
+.text-2 {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#020202;
+	padding:0px 0px 5px 0px;
+	}
+
+ul.list-1 {
+	margin:10px 0px 0px 15px;
+	padding:0px;
+	list-style:none;
+	}
+
+ul.list-1 li {
+	margin:0px 0px 10px 0px;
+	padding:0px 0px 0px 15px;
+	background:url(../images/arr-1.jpg) no-repeat 2px 5px;
+	
+	
+	}
+
+.border-1 {
+	background:url(../images/border-bg.jpg) bottom repeat-x;
+	
+	}
+	
+ul.footer-nav {
+	width:430px;
+	float:right;
+	margin:20px 0px 0px 0px;
+	padding:0px;
+	list-style:none;
+	
+		
+	
+	}
+		
+	
+ul.footer-nav li {
+	display:inline;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#ffffff;
+	margin:0px 10px 0px 10px;
+	}
+	
+ul.footer-nav li a {
+	display:inline;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#ffffff;
+	text-decoration:none;
+	}	
+	
+ul.footer-nav li a:hover {
+	text-decoration:underline;
+	}	
+	
+#footer p {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#ffffff;
+	width:300px;
+	float:left;
+	margin:20px 0px 0px 10px;
+	}
+
+#footer a {
+	display:inline;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#ffffff;
+	text-decoration:none;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+		
+	
+	
+	
