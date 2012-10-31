@@ -64,17 +64,20 @@ class resource:
             logging.info("Timed out fetching page {0}".format(self.url))
             self.visited=True
             self.response_code=-1
+            #page timed out not 404
             return
         except requests.RequestException as e:
             logging.info("Unknown exception {0}".format(e))
             self.visited=True
             self.response_code=-3
+            #dead or unreachable page not 404
             return
 
         if(r is None):
             logging.warn("Request failed for {0}".format(e))
+            #dead or unreachable page not 404 (should not happen)
             return
-            
+            #3 above should not happen on day to day bassis
         self.visited=True
         self.response_code=r.status_code
         
