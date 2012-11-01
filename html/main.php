@@ -24,38 +24,19 @@
 <div id="site-content">
 <div id="col-left">
 <h1 class="h-text-1">WELCOME</h1>
-<p class="text-1"><strong>Lorem Ipsum is simply</strong> dummy text of
-the printing and typesetting industry. Lorem Ipsum has been the
-industry's standard dummy text ever since the 1500s, when an unknown
-printer took a galley of type and scrambled.</p>
+<p class="text-1"><strong>Group 4 is an entity that strives to give its customer the best  software agent technology that is available. Our product is called Forager and it provides you with the following capabilities:</strong></p>
 <ul class="list-1">
-  <li>Lorem Ipsum as their default model text</li>
-  <li>There are many variations of passages</li>
-  <li>Contrary to popular belief, Lorem Ipsum is not</li>
-  <li>Many desktop publishing packages and web page</li>
-  <li>There are many variations of passages</li>
+  <li>Scan any web site</li>
+  <li>Generate reports</li>
+  <li>Sort reports</li>
+  <li>Print reports</li>
+  <li>Run timed scans</li>
 </ul>
-<p class="text-1">Lorem Ipsum is simply dummy text of the printing and
-typesetting industry. Lorem Ipsum has been the industry's standard
-dummy text ever since the 1500s, when an unknown printer took a galley
-of type and scrambled it to make a type specimen book. It has survived
-not only five centuries, but also the leap into electronic typesetting,
-remaining essentially unchanged. It was popularised in the 1960s with
-the release of Letraset sheets containing Lorem Ipsum passages,</p>
+<p class="text-1">Forager is a web crawler that scan, sorts and generates the reports that your company needs to maintain a efficient and secure web site for your customers.</p>
 <p class="border-1">&nbsp;</p>
 <h2 class="h-text-2">About us</h2>
-<p class="text-1">There are many variations of passages of Lorem Ipsum
-available, but the majority have suffered alteration in some form, by
-injected humour, or randomised words which don't look even slightly
-believable. If you are going to use a passage of Lorem Ipsum, you need
-to be sure there isn't anything embarrassing hidden. There are many
-variations of passages of Lorem Ipsum available, but the majority have
-suffered.</p>
-<p class="text-1">All the Lorem Ipsum generators on the Internet tend
-to repeat predefined chunks as necessary, making this the first true
-generator on the Internet. It uses a dictionary of over 200 Latin
-words, combined with a handful of model sentence structures, to
-generate Lorem Ipsum which looks reasonable. </p>
+<p class="text-1">Group 4 is made up of professionals with over 20 years of joint experience in software development and database technologies. Based in Marietta, Georgia, Group 4 as been a staple in the web development community since mid-2012.</p>
+<p class="text-1">&nbsp;</p>
 </div>
 <div id="col-right">
 <div style="padding: 30px 10px 10px;">
