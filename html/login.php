@@ -44,7 +44,7 @@ if (array_key_exists('login', $_POST)){
         $_SESSION['user_name']=$UserName;
         $_SESSION['user_id']=$row['user_id'];
 		
-		header("Location: index.php");
+		header("Location: main.php");
 		
 		die("Done loading user.");
     } else {

@@ -59,9 +59,9 @@ INSERT INTO resources(resource_id,scan_id,url,parent_id,
 		start_date,response_time,http_response) VALUES
 	(1, 1, 'http://minerva.gtf.org/test/', NULL, 
 		'10/31/2012 4:00', '.1s', 200),
-	(1, 2, 'http://minerva.gtf.org/test/index.html', 1, 
+	(2, 1, 'http://minerva.gtf.org/test/index.html', 1, 
 		'10/31/2012 4:01', '.1s', 200),
-	(1, 3, 'http://minerva.gtf.org/test/bork.html', 1, 
+	(3, 1, 'http://minerva.gtf.org/test/bork.html', 1, 
 		'10/31/2012 4:01', '.1s', 404);
 
 SELECT setval('resources_resource_id_seq', max(resource_id)) FROM resources;
