@@ -28,7 +28,7 @@ def dbclose():
 
 def sig_handler(sig, frame):
     if (sig == signal.SIGINT):
-        loggin.warn("Caught SIGINT. Exiting.")
+        logging.warn("Caught SIGINT. Exiting.")
         dbclose()
         sys.exit(0)
     elif (sig == signal.SIGTERM):
