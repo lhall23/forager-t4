@@ -59,7 +59,7 @@ $(document).ready(function() {
     $('#example').dataTable( {
         "aaData": [ 
 		
-		["$scans"] 
+		[$scans] 
 		
 		],
         "aoColumns": [
