@@ -50,7 +50,7 @@ $js_array = "[";
 while($results = pg_fetch_array($scans))
 {
 $js_array .= "[";
-$js_array .= "\"<a href='reports.php?scan_id=$results[scan_id]'> $results[scan_id]</a>\"";
+$js_array .= "\"<a href='Reports.php?scan_id=$results[scan_id]'> $results[scan_id]</a>\"";
 $js_array .= ",";
 $js_array .= "\"";
 $js_array .= $results['start_time'];
@@ -101,7 +101,7 @@ $(document).ready(function() {
 
 
 <p class="text-1">&nbsp;</p>
-</div>
+</div>	
 <div id="col-right">
 <div style="padding: 30px 10px 10px;">
 <h2 class="h-text-2">Latest News</h2>
