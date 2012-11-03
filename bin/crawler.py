@@ -21,7 +21,7 @@ else:
     logging.basicConfig(level=logging.INFO)
 
 def dbclose():        
-    set_term_sql="UPDATE scans SET end_time=NOW() WHERE scan_id={0}";
+    set_term_sql="UPDATE scans SET end_time=NOW() WHERE scan_id=%s";
     cur.execute(set_term_sql,(scan_id,))
     cur.close()
     DB_Connection.close()
