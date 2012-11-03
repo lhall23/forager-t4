@@ -1,7 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+<script src="http://minerva.gtf.org/javascript/jquery/jquery.js">
+</script>
+<script src="http://minerva.gtf.org/js/jquery.dataTables.js">
+</script>
 <head>
-  <meta http-equiv="Content-Type"
+	  <meta http-equiv="Content-Type"
  content="text/html; charset=iso-8859-1">
   <title>Your Company</title>
   <link href="css/style.css" rel="stylesheet" type="text/css">
@@ -22,20 +26,39 @@
 </ul>
 </div>
 <div id="site-content">
-<div id="col-left">
-<h1 class="h-text-1">WELCOME</h1>
-<p class="text-1"><strong>Group 4 is an entity that strives to give its customer the best  software agent technology that is available. Our product is called Forager and it provides you with the following capabilities:</strong></p>
-<ul class="list-1">
-  <li>Scan any web site</li>
-  <li>Generate reports</li>
-  <li>Sort reports</li>
-  <li>Print reports</li>
-  <li>Run timed scans</li>
-</ul>
-<p class="text-1">Forager is a web crawler that scan, sorts and generates the reports that your company needs to maintain a efficient and secure web site for your customers.</p>
-<p class="border-1">&nbsp;</p>
-<h2 class="h-text-2">About us</h2>
-<p class="text-1">Group 4 is made up of professionals with over 20 years of joint experience in software development and database technologies. Based in Marietta, Georgia, Group 4 as been a staple in the web development community since mid-2012.</p>
+<div id="demo">
+
+
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+    $('#demo').html( '<table cellpadding="0" cellspacing="0" border="0" class="display" id="example"></table>' );
+    $('#example').dataTable( {
+        "aaData": [
+            /* Reduced data set */
+            [ "Trident", "Internet Explorer 4.0", "Win 95+", 4 ],
+           
+        ],
+        "aoColumns": [
+            { "sTitle": "Scan ID" , "sClass": "center" },
+            { "sTitle": "Start Time" , "sClass": "center" },
+            { "sTitle": "End TIme" , "sClass": "center" },
+            { "sTitle": "Run Time", "sClass": "center" },
+        ]
+    } );   
+} );
+
+
+</script>
+
+
+
+
+
+
+
+
 <p class="text-1">&nbsp;</p>
 </div>
 <div id="col-right">
