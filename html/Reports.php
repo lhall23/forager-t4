@@ -49,16 +49,25 @@ $js_array = "[";
 
 while($results = pg_fetch_array($scans))
 {
-$js_array += "[";
-$js_array += $results['scan_id'];
-$js_array += $results['start_time'];
-$js_array += $results['end_time'];
-$js_array += $results['elapsed_time'];
-$js_array += "]";
+$js_array .= "[";
+$js_array .= $results['scan_id'];
+$js_array .= ",";
+$js_array .= "\"";
+$js_array .= $results['start_time'];
+$js_array .= "\"";
+$js_array .= ",";
+$js_array .= "\"";
+$js_array .= $results['end_time'];
+$js_array .= "\"";
+$js_array .= ",";
+$js_array .= "\"";
+$js_array .= $results['elapsed_time'];
+$js_array .= "\"";
+$js_array .= "]";
 }
 
 
-$js_array += "]";
+$js_array .= "]";
 
 ?>
 
