@@ -42,27 +42,38 @@ require_once('include/conf.php');
 
 <?php
 
-$query = "SELECT scan_id, start_time, end_time, end_time - start_time as elapsed_time FROM scans"; 
-$scans = pg_query($conn, $query);
+if(array_key_exists('scan_id',$_GET))
+{
+	$scan_id = $_GET['scan_id'];
+}
+else
+{
+	die;
+}
+
+$query = "SELECT resource_id, url, start_date, response_time, http_response FROM resources WHERE scan_id = $scan_id"; 
+$scans = pg_query_params($conn, $query,$scan_id);
 
 $js_array = "[";
 
 while($results = pg_fetch_array($scans))
 {
 $js_array .= "[";
-$js_array .= $results['scan_id'];
+$js_array .= $results['resource_id'];
 $js_array .= ",";
 $js_array .= "\"";
-$js_array .= $results['start_time'];
-$js_array .= "\"";
-$js_array .= ",";
-$js_array .= "\"";
-$js_array .= $results['end_time'];
+$js_array .= $results['url'];
 $js_array .= "\"";
 $js_array .= ",";
 $js_array .= "\"";
-$js_array .= $results['elapsed_time'];
+$js_array .= $results['start_date'];
 $js_array .= "\"";
+$js_array .= ",";
+$js_array .= "\"";
+$js_array .= $results['response_time'];
+$js_array .= "\"";
+$js_array .= ",";
+$js_array .= $results['http_response'];
 $js_array .= "]";
 $js_array .= ",";
 }
@@ -73,19 +84,16 @@ $js_array .= "]";
 ?>
 
 
-
-
-
-
 $(document).ready(function() {
     $('#demo').html( '<table cellpadding="0" cellspacing="0" border="0" class="display" id="example"></table>' );
     $('#example').dataTable( {
         "aaData": <?php echo $js_array; ?> ,
         "aoColumns": [
-            { "sTitle": "Scan ID" , "sClass": "center" },
-            { "sTitle": "Start Time" , "sClass": "center" },
-            { "sTitle": "End TIme" , "sClass": "center" },
-            { "sTitle": "Run Time", "sClass": "center" },
+            { "sTitle": "Resource ID" , "sClass": "center" },
+            { "sTitle": "URL" , "sClass": "center" },
+            { "sTitle": "Start Date" , "sClass": "center" },
+            { "sTitle": "Response Time", "sClass": "center" },
+			{ "sTitle": "HTTP Response", "sClass": "center" },
         ]
     } );   
 } );
