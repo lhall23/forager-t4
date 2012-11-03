@@ -43,7 +43,7 @@ require_once('include/conf.php');
 <?php
 
 $query = "SELECT scan_id, start_time, end_time, end_time - start_time FROM scans"; 
-$scans = pg_query_params($conn, $query);
+$scans = pg_query($conn, $query);
 $results = pg_fetch_all($scans);
 
 $js_array = json_encode($results);
