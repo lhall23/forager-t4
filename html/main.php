@@ -18,7 +18,7 @@ require_once("include/session.php");
 <div id="nav">
 <ul>
   <li><a href="main">Home</a></li>
-  <li><a href="scan">Start a Scan</a></li>
+  <li><a href="start.php">Start a Scan</a></li>
   <li><a href="scans.php">View Reports</a></li>
   <li><a href="compare">Compare Reports</a></li>
   <li><a href="extra">Extra</a></li>
