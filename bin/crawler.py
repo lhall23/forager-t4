@@ -4,6 +4,7 @@
 
 from resource import resource
 from collections import deque
+import psycopg2
 import logging
 
 DEBUG=True
@@ -17,6 +18,15 @@ if (DEBUG):
     logging.debug("Debugging enabled.")
 else:
     logging.basicConfig(level=logging.INFO)
+
+
+try:
+    self.DB_Connection = psycopg2.connect("dbname=forager","user=appachi")
+    self.cur=self.DB_Connection.cursor()
+except psycopg2.Error as e:
+    msg="Target Database configuration error: \"{0}{1}\".".format(type(e),e)
+    self.log.critical(msg)
+            
 
 resource_list={}
 pending=deque()
@@ -52,3 +62,9 @@ while (len(pending) > 0):
             continue
         pending.append(child_url)
         resource_list[child_url]=new_resource
+        #makes all data on creation
+        resource.Sql_Call(cur)
+
+        
+self.cur.close()
+self.DB_Connection.close()

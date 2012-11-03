@@ -119,7 +119,17 @@ class resource:
         logging.debug("Canonicalized link {0}".format(can_link))
         return can_link
 
+    def Sql_Call(self, connection):
+        self.cur=connection
+        self.cur.execute("INSERT INTO resources(url,parent_id,response_time,http_response) VALUSE (%s,%s,%s,%s)",
+                         (self.url,self.parent.resource_id,self.time_elapsed,self.response_code))
+        self.cur.commit()
+        
 
+
+
+
+    
 # This only to be run when testing hte module independently
 def main():
     r=resource("http://minerva.gtf.org/test/")
