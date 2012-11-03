@@ -1,5 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+
+<?php
+require_once('include/secure.php');
+require_once('include/conf.php');
+?>
+
 <script src="http://minerva.gtf.org/javascript/jquery/jquery.js">
 </script>
 <script src="http://minerva.gtf.org/js/jquery.dataTables.js">
@@ -32,14 +38,26 @@
 
 <script type="text/javascript">
 
+
+
+<?php
+
+$query = "SELECT scan_id, start_time, end_time FROM scans"; 
+$scans = pg_query_params($conn, $query);
+
+$js_id_array = json_encode($scans);
+
+?>
+
+
+
+
+
+
 $(document).ready(function() {
     $('#demo').html( '<table cellpadding="0" cellspacing="0" border="0" class="display" id="example"></table>' );
     $('#example').dataTable( {
-        "aaData": [
-            /* Reduced data set */
-            [ "Trident", "Internet Explorer 4.0", "Win 95+", 4 ],
-           
-        ],
+        "aaData": [ "$scans" ],
         "aoColumns": [
             { "sTitle": "Scan ID" , "sClass": "center" },
             { "sTitle": "Start Time" , "sClass": "center" },
