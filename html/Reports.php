@@ -6,9 +6,9 @@ require_once('include/secure.php');
 require_once('include/conf.php');
 ?>
 
-<script src="http://minerva.gtf.org/javascript/jquery/jquery.js">
+<script src="/javascript/jquery/jquery.js">
 </script>
-<script src="http://minerva.gtf.org/js/jquery.dataTables.js">
+<script src="/js/jquery.dataTables.js">
 </script>
 <head>
 	  <meta http-equiv="Content-Type"
@@ -44,8 +44,9 @@ require_once('include/conf.php');
 
 $query = "SELECT scan_id, start_time, end_time, end_time - start_time FROM scans"; 
 $scans = pg_query_params($conn, $query);
+$results = pg_fetch_all($scans)
 
-$js_id_array = json_encode($scans);
+$js_array = json_encode($results);
 
 ?>
 
@@ -57,7 +58,7 @@ $js_id_array = json_encode($scans);
 $(document).ready(function() {
     $('#demo').html( '<table cellpadding="0" cellspacing="0" border="0" class="display" id="example"></table>' );
     $('#example').dataTable( {
-        "aaData": [ <?php echo $js_id_array; ?>],
+        "aaData": [ <?php echo $js_array; ?>],
         "aoColumns": [
             { "sTitle": "Scan ID" , "sClass": "center" },
             { "sTitle": "Start Time" , "sClass": "center" },
