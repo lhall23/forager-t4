@@ -19,7 +19,7 @@ require_once("include/session.php");
 <ul>
   <li><a href="main">Home</a></li>
   <li><a href="scan">Start a Scan</a></li>
-  <li><a href="<?php echo "Reports.php"; ?>">View Reports</a></li>
+  <li><a href="Reports.php">View Reports</a></li>
   <li><a href="compare">Compare Reports</a></li>
   <li><a href="extra">Extra</a></li>
   <li style="border-right: medium none;"><a href="#">Links</a></li>

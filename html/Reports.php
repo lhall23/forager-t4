@@ -9,7 +9,7 @@
 <body>
 <div id="container">
 <div id="header"> <img src="images/logo.jpg" alt="" id="logo">
-<h1 id="logo-text">Forager</h1>
+<h1 id="logo-text">Reports</h1>
 </div>
 <div id="nav">
 <ul>
