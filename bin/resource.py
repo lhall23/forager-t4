@@ -126,13 +126,16 @@ class resource:
             parent_id=None
         else:
             parent_id=self.parent.resource_id
-
-        self.cur.execute("INSERT INTO resources(scan_id,url,parent_id,response_time,http_response) VALUES (%s,%s,%s,%s,%s)",
-                         (self.scan_id,self.url,parent_id,"'{0} seconds'".format(self.time_elapsed),self.response_code))
-        
-
-
-
+        insert_sql="""
+            INSERT INTO resources(scan_id,url,
+                parent_id,response_time,http_response) 
+            VALUES (%s,%s,%s,%s,%s) 
+            RETURNING resource_id"""
+        self.cur.execute(insert_sql, (self.scan_id,self.url,
+            parent_id,"'{0} seconds'".format(self.time_elapsed),
+            self.response_code))
+        result=self.cur.fetchone() 
+        self.resource_id=result[0]
 
     
 # This only to be run when testing hte module independently

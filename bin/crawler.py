@@ -6,6 +6,7 @@ from resource import resource
 from collections import deque
 import psycopg2
 import logging
+import signal
 
 DEBUG=True
 DOMAIN="spsu.edu"
@@ -19,6 +20,24 @@ if (DEBUG):
 else:
     logging.basicConfig(level=logging.INFO)
 
+def dbclose():        
+    set_term_sql="UPDATE scans SET end_time=NOW() WHERE scan_id={0}";
+    cur.execute(set_term_sql,(scan_id,))
+    cur.close()
+    DB_Connection.close()
+
+def sig_handler(sig, frame):
+    if (sig == signal.SIGINT):
+        loggin.warn("Caught SIGINT. Exiting.")
+        dbclose()
+        sys.exit(0)
+    elif (sig == signal.SIGTERM):
+        logging.warn("Caught SIGTERM. Exiting.")
+        dbclose()
+        sys.exit(0)
+
+signal.signal(signal.SIGINT, sig_handler)
+signal.signal(signal.SIGTERM, sig_handler)
 
 try:
     DB_Connection = psycopg2.connect("dbname=forager user=apache")
@@ -74,6 +93,4 @@ while (len(pending) > 0):
         pending.append(child_url)
         resource_list[child_url]=new_resource
 
-        
-cur.close()
-DB_Connection.close()
+dbclose()
