@@ -1,11 +1,17 @@
-<?php
-require_once("include/conf.php");
-require_once("include/session.php");
-?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+
+<?php
+require_once('include/secure.php');
+require_once('include/conf.php');
+?>
+
+<script src="/javascript/jquery/jquery.js">
+</script>
+<script src="/js/jquery.dataTables.js">
+</script>
 <head>
-  <meta http-equiv="Content-Type"
+	  <meta http-equiv="Content-Type"
  content="text/html; charset=iso-8859-1">
   <title>Your Company</title>
   <link href="css/style.css" rel="stylesheet" type="text/css">
@@ -13,33 +19,87 @@ require_once("include/session.php");
 <body>
 <div id="container">
 <div id="header"> <img src="images/logo.jpg" alt="" id="logo">
-<h1 id="logo-text">Forager</h1>
+<h1 id="logo-text">Reports</h1>
 </div>
 <div id="nav">
 <ul>
   <li><a href="main">Home</a></li>
   <li><a href="scan">Start a Scan</a></li>
-  <li><a href="scans.php">View Reports</a></li>
+  <li><a href="<?php echo "scans.php"; ?>">View Reports</a></li>
   <li><a href="compare">Compare Reports</a></li>
   <li><a href="extra">Extra</a></li>
   <li style="border-right: medium none;"><a href="#">Links</a></li>
 </ul>
 </div>
 <div id="site-content">
-<div id="col-left">
-<h1 class="h-text-1">WELCOME</h1>
-<p class="text-1"><strong>Group 4 is an entity that strives to give its customer the best  software agent technology that is available. Our product is called Forager and it provides you with the following capabilities:</strong></p>
-<ul class="list-1">
-  <li>Scan any web site</li>
-  <li>Generate reports</li>
-  <li>Sort reports</li>
-  <li>Print reports</li>
-  <li>Run timed scans</li>
-</ul>
-<p class="text-1">Forager is a web crawler that scan, sorts and generates the reports that your company needs to maintain a efficient and secure web site for your customers.</p>
-<p class="border-1">&nbsp;</p>
-<h2 class="h-text-2">About us</h2>
-<p class="text-1">Group 4 is made up of professionals with over 20 years of joint experience in software development and database technologies. Based in Marietta, Georgia, Group 4 as been a staple in the web development community since mid-2012.</p>
+<div id="demo">
+
+
+
+<script type="text/javascript">
+
+
+
+<?php
+
+$query = "SELECT scan_id, start_time, end_time, end_time - start_time as elapsed_time FROM scans"; 
+$scans = pg_query($conn, $query);
+
+$js_array = "[";
+
+while($results = pg_fetch_array($scans))
+{
+$js_array .= "[";
+$js_array .= "\"<a href='reports.php?scan_id=$results[scan_id]'> $results[scan_id]</a>\"";
+$js_array .= ",";
+$js_array .= "\"";
+$js_array .= $results['start_time'];
+$js_array .= "\"";
+$js_array .= ",";
+$js_array .= "\"";
+$js_array .= $results['end_time'];
+$js_array .= "\"";
+$js_array .= ",";
+$js_array .= "\"";
+$js_array .= $results['elapsed_time'];
+$js_array .= "\"";
+$js_array .= "]";
+$js_array .= ",";
+}
+
+
+$js_array .= "]";
+
+?>
+
+
+
+
+
+
+$(document).ready(function() {
+    $('#demo').html( '<table cellpadding="0" cellspacing="0" border="0" class="display" id="example"></table>' );
+    $('#example').dataTable( {
+        "aaData": <?php echo $js_array; ?> ,
+        "aoColumns": [
+            { "sTitle": "Scan ID" , "sClass": "center" },
+            { "sTitle": "Start Time" , "sClass": "center" },
+            { "sTitle": "End TIme" , "sClass": "center" },
+            { "sTitle": "Run Time", "sClass": "center" },
+        ]
+    } );   
+} );
+
+
+</script>
+
+
+
+
+
+
+
+
 <p class="text-1">&nbsp;</p>
 </div>
 <div id="col-right">
