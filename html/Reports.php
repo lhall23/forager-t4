@@ -66,10 +66,6 @@ $js_array .= $results['url'];
 $js_array .= "\"";
 $js_array .= ",";
 $js_array .= "\"";
-$js_array .= $results['start_date'];
-$js_array .= "\"";
-$js_array .= ",";
-$js_array .= "\"";
 $js_array .= $results['response_time'];
 $js_array .= "\"";
 $js_array .= ",";
@@ -91,7 +87,6 @@ $(document).ready(function() {
         "aoColumns": [
             { "sTitle": "Resource ID" , "sClass": "center" },
             { "sTitle": "URL" , "sClass": "center" },
-            { "sTitle": "Start Date" , "sClass": "center" },
             { "sTitle": "Response Time", "sClass": "center" },
 			{ "sTitle": "HTTP Response", "sClass": "center" },
         ]
