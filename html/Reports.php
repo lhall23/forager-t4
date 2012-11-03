@@ -64,6 +64,7 @@ $js_array .= "\"";
 $js_array .= $results['elapsed_time'];
 $js_array .= "\"";
 $js_array .= "]";
+$js_array .= ",";
 }
 
 
