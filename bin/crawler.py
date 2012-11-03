@@ -7,6 +7,7 @@ from collections import deque
 import psycopg2
 import logging
 import signal
+import sys
 
 DEBUG=True
 DOMAIN="spsu.edu"
