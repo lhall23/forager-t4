@@ -20,17 +20,18 @@ class resource:
     def get_method(url):
         return url[:url.find('://') + 3]
 
-    def __init__(self, url):
+    def __init__(self, url, scan_id):
         # Directory names MUST end in a trailing space in the URL
         # URLs should start with 'http://'
         self.url=url
         self.domain=resource.get_domain(url)
         self.method=resource.get_method(url)
+        self.scan_id=scan_id
         self.visited=False
         self.parent=None
         self.children=[]
         self.response_code=-1
-        self.resource_id=-1
+        self.resource_id=None
         self.time_elapsed=-1
 
         if (DEBUG):
@@ -121,9 +122,13 @@ class resource:
 
     def Sql_Call(self, connection):
         self.cur=connection
-        self.cur.execute("INSERT INTO resources(url,parent_id,response_time,http_response) VALUSE (%s,%s,%s,%s)",
-                         (self.url,self.parent.resource_id,self.time_elapsed,self.response_code))
-        self.cur.commit()
+        if (self.parent is None):
+            parent_id=None
+        else:
+            parent_id=self.parent.resource_id
+
+        self.cur.execute("INSERT INTO resources(scan_id,url,parent_id,response_time,http_response) VALUES (%s,%s,%s,%s,%s)",
+                         (self.scan_id,self.url,parent_id,"'{0} seconds'".format(self.time_elapsed),self.response_code))
         
 
 

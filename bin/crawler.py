@@ -21,17 +21,25 @@ else:
 
 
 try:
-    self.DB_Connection = psycopg2.connect("dbname=forager","user=appachi")
-    self.cur=self.DB_Connection.cursor()
+    DB_Connection = psycopg2.connect("dbname=forager user=apache")
+    cur=DB_Connection.cursor()
 except psycopg2.Error as e:
     msg="Target Database configuration error: \"{0}{1}\".".format(type(e),e)
-    self.log.critical(msg)
-            
+    logging.critical(msg)
+    exit(1)
+
+#Autocommit database queries. We don't need transactions.            
+DB_Connection.set_session(autocommit=True)
+create_scan_sql="""INSERT INTO scans(start_time) 
+    VALUES (NOW()) RETURNING scan_id;"""
+cur.execute(create_scan_sql)
+scan_row=cur.fetchone()
+scan_id=scan_row[0]
 
 resource_list={}
 pending=deque()
 pending.append(START_PAGE)
-resource_list[START_PAGE]=resource(START_PAGE)
+resource_list[START_PAGE]=resource(START_PAGE,scan_id)
 
 while (len(pending) > 0):
     logging.debug(pending)
@@ -47,13 +55,16 @@ while (len(pending) > 0):
     logging.info("Processing \"{0}\"".format(cur_url))
 
     cur_resource.fetch()
+    #makes all data on creation
+    cur_resource.Sql_Call(cur)
+
     for child_url in cur_resource.children:
         if (child_url in resource_list):
             logging.debug(
                 "Skipping existing URL \"{0}\"".format(child_url))
             continue
         logging.debug("Queueing \"{0}\"".format(child_url))
-        new_resource=resource(child_url)
+        new_resource=resource(child_url,scan_id)
         new_resource.parent=cur_resource
         if (not new_resource.domain.endswith(DOMAIN)):
             logging.debug(
@@ -62,9 +73,7 @@ while (len(pending) > 0):
             continue
         pending.append(child_url)
         resource_list[child_url]=new_resource
-        #makes all data on creation
-        resource.Sql_Call(cur)
 
         
-self.cur.close()
-self.DB_Connection.close()
+cur.close()
+DB_Connection.close()
