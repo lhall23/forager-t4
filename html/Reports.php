@@ -58,7 +58,7 @@ $js_array = json_encode($results);
 $(document).ready(function() {
     $('#demo').html( '<table cellpadding="0" cellspacing="0" border="0" class="display" id="example"></table>' );
     $('#example').dataTable( {
-        "aaData": [ <?php echo $js_array; ?>],
+        "aaData":  <?php echo $js_array; ?>,
         "aoColumns": [
             { "sTitle": "Scan ID" , "sClass": "center" },
             { "sTitle": "Start Time" , "sClass": "center" },
