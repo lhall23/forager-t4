@@ -115,14 +115,13 @@ $(document).ready(function() {
 </div>
 <div
  style="padding: 5px 10px 15px; background: rgb(216, 214, 215) none repeat scroll 0%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">
-<p class="text-2"> 00/00 Lorem Ipsum is simply dummy text of the
-printing and typesetting.<br>
+<p class="text-2"> Southern Polytechnic State University.<br>
 <br>
-E.mail: abc@Lorem Ipsum<br>
+E.mail: Spsu@Spsu.edu<br>
 <br>
-Fax: 000.000.0000<br>
+Fax: 678-915-7778<br>
 <br>
-Phone: 000.000.0000/<br>
+Phone: 678-915-7778/<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 000.000.0000 </p>
 </div>
