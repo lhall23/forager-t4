@@ -21,7 +21,7 @@ while($procs_row=pg_fetch_assoc($procs_res)){
 	}	
 }
 trigger_error("Starting scanning process.");
-exec("/usr/local/src/forager/bin/crawler.py >/dev/null 2>&1 &");
+exec("/usr/local/src/forager/bin/crawler.py");
 die("Started webcrawler.");
 header("Location: main.php");
 ?>

@@ -14,6 +14,7 @@ DEBUG=True
 CONN_STRING="dbname=forager user=apache"
 DOMAIN="spsu.edu"
 START_PAGE="http://spsu.edu/"
+LOGFILE="/var/log/forager.log"
 # DOMAIN="gtf.org"
 # START_PAGE="http://minerva.gtf.org/test/"
 
@@ -21,20 +22,15 @@ class crawler:
 
     def __init__(self):
         if (DEBUG):
-            logging.basicConfig(level=logging.DEBUG)
+            logging.basicConfig(level=logging.DEBUG, filename=LOGFILE)
             logging.debug("Debugging enabled.")
         else:
             logging.basicConfig(level=logging.INFO)
         signal.signal(signal.SIGINT, self.sig_handler)
         signal.signal(signal.SIGTERM, self.sig_handler)
-
+        
+        self.daemonize()
         self.dbinit()
-        pid=os.getpid()
-        create_scan_sql="""INSERT INTO scans(start_time,pid) 
-            VALUES (NOW(), %s) RETURNING scan_id;"""
-            cur.execute(create_scan_sql, (pid,))
-        scan_row=self.cur.fetchone()
-        self.scan_id=scan_row[0]
 
     def dbclose(self):        
         set_term_sql="UPDATE scans SET end_time=NOW() WHERE scan_id=%s";
@@ -70,7 +66,61 @@ class crawler:
         #Autocommit database queries. We don't need transactions.            
         self.DB_Connection.set_session(autocommit=True)
 
+    # Daemonize crawler process. This is adapted from Stevens's Advanced
+    # Programming in a Unix Environment, and ported to python3 by an anonymous
+    # user. Source is available here: http://www.jejik.com/files/examples/daemon3x.py
+    # Stevens's original code starts on page 426 in the second edition, (c) 1995.
+    def daemonize(self):
+        #FOrk
+        try: 
+            pid= os.fork()
+            if (pid > 0):
+                sys.exit(0)
+        except OSError as e:
+            logging.warn("Fork failed: {0}.".format(e))
+            sys.exit(1)
+
+        logging.info("Forked as.".format(pid))
+        # Reset env
+        os.chdir('/')
+        os.setsid()
+        os.umask(0)
+
+        #Fork again.
+        try: 
+            pid= os.fork()
+            if (pid > 0):
+                sys.exit(0)
+        except OSError as e:
+            logging.warn("Fork failed: {0}.".format(e))
+            sys.exit(1)
+        logging.info("Forked again.".format(pid))
+
+        sys.stdout.flush()
+        sys.stderr.flush()
+
+
+        # Open devnull and move input/output over there.
+        si=open(os.devnull, 'r')
+        so=open(os.devnull, 'a+')
+        se=open(os.devnull, 'a+')
+
+        os.dup2(si.fileno(), sys.stdin.fileno())
+        os.dup2(so.fileno(), sys.stdout.fileno())
+        os.dup2(se.fileno(), sys.stderr.fileno())
+
+        logging.info("Detatched from terminal.".format(pid))
+       
+         
+
     def crawl(self,url):
+        logging.info("Starting crawl at {0}.".format(url))
+        pid=os.getpid()
+        create_scan_sql="""INSERT INTO scans(start_time,pid) 
+            VALUES (NOW(), %s) RETURNING scan_id;"""
+        self.cur.execute(create_scan_sql, (pid,))
+        scan_row=self.cur.fetchone()
+        self.scan_id=scan_row[0]
         resource_list={}
         pending=deque()
         pending.append(url)
@@ -109,6 +159,9 @@ class crawler:
                 pending.append(child_url)
                 resource_list[child_url]=new_resource
 
-c=crawler()
-c.crawl(START_PAGE)
-c.dbclose()
+try:
+    c=crawler()
+    c.crawl(START_PAGE)
+    c.dbclose()
+except Exception as e:
+    logging.critical("Something exploded: {0}".format(e))
