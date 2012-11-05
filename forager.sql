@@ -29,14 +29,15 @@ INSERT INTO users(user_name,password) VALUES
 DROP TABLE IF EXISTS scans CASCADE;
 CREATE TABLE scans (
 	scan_id 	SERIAL PRIMARY KEY,
+	pid			INTEGER,
 	start_time	timestamp,
 	end_time	timestamp	
 );
 COMMENT ON TABLE scans IS 'List of scans, referenced by resources';
 
-INSERT INTO scans(scan_id,start_time,end_time) VALUES
-	(1, '10/31/2012 4:00', '10/31/2012 4:30'),
-	(2, '10/30/2012 16:00', '10/31/2012 0:01');
+INSERT INTO scans(scan_id,pid,start_time,end_time) VALUES
+	(1, -1, '10/31/2012 4:00', '10/31/2012 4:30'),
+	(2, -1, '10/30/2012 16:00', '10/31/2012 0:01');
 
 SELECT setval('scans_scan_id_seq', max(scan_id)) FROM scans;
 

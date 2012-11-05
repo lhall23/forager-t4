@@ -8,8 +8,9 @@ import psycopg2
 import logging
 import signal
 import sys
+import os
 
-DEBUG=True
+DEBUG=False
 DOMAIN="spsu.edu"
 START_PAGE="http://spsu.edu/"
 # DOMAIN="gtf.org"
@@ -50,9 +51,10 @@ except psycopg2.Error as e:
 
 #Autocommit database queries. We don't need transactions.            
 DB_Connection.set_session(autocommit=True)
-create_scan_sql="""INSERT INTO scans(start_time) 
-    VALUES (NOW()) RETURNING scan_id;"""
-cur.execute(create_scan_sql)
+pid=os.getpid()
+create_scan_sql="""INSERT INTO scans(start_time,pid) 
+    VALUES (NOW(), %s) RETURNING scan_id;"""
+cur.execute(create_scan_sql, (pid,))
 scan_row=cur.fetchone()
 scan_id=scan_row[0]
 
