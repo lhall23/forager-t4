@@ -8,6 +8,7 @@ import psycopg2
 import logging
 import signal
 import sys
+import os
 
 DEBUG=True
 CONN_STRING="dbname=forager user=apache"
@@ -15,7 +16,6 @@ DOMAIN="spsu.edu"
 START_PAGE="http://spsu.edu/"
 # DOMAIN="gtf.org"
 # START_PAGE="http://minerva.gtf.org/test/"
-
 
 class crawler:
 
