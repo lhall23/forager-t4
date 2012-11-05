@@ -29,19 +29,17 @@ class crawler:
         signal.signal(signal.SIGTERM, self.sig_handler)
 
         self.dbinit()
-        create_scan_sql="""INSERT INTO scans(start_time) 
-            VALUES (NOW()) RETURNING scan_id;"""
-        self.cur.execute(create_scan_sql)
+        pid=os.getpid()
+        create_scan_sql="""INSERT INTO scans(start_time,pid) 
+            VALUES (NOW(), %s) RETURNING scan_id;"""
+            cur.execute(create_scan_sql, (pid,))
         scan_row=self.cur.fetchone()
         self.scan_id=scan_row[0]
-
-    def __del__(self):
-        self.dbclose()
 
     def dbclose(self):        
         set_term_sql="UPDATE scans SET end_time=NOW() WHERE scan_id=%s";
         if(hasattr(self, 'cur') and self.cur is not None):
-            self.cur.execute(set_term_sql,(scan_id,))
+            self.cur.execute(set_term_sql,(self.scan_id,))
             self.cur.close()
             self.DB_Connection.close()
         else:
@@ -50,11 +48,11 @@ class crawler:
     def sig_handler(self,sig, frame):
         if (sig == signal.SIGINT):
             logging.warn("Caught SIGINT. Exiting.")
-            dbclose()
+            self.dbclose()
             sys.exit(0)
         elif (sig == signal.SIGTERM):
             logging.warn("Caught SIGTERM. Exiting.")
-            dbclose()
+            self.dbclose()
             sys.exit(0)
 
     def dbinit(self):
@@ -67,16 +65,16 @@ class crawler:
             logging.critical(msg)
             exit(1)
 
-        self.cur=DB_Connection.cursor()
+        self.cur=self.DB_Connection.cursor()
 
         #Autocommit database queries. We don't need transactions.            
-        DB_Connection.set_session(autocommit=True)
+        self.DB_Connection.set_session(autocommit=True)
 
     def crawl(self,url):
         resource_list={}
         pending=deque()
         pending.append(url)
-        resource_list[url]=resource(url,scan_id)
+        resource_list[url]=resource(url,self.scan_id)
 
         while (len(pending) > 0):
             logging.debug(pending)
@@ -101,7 +99,7 @@ class crawler:
                         "Skipping existing URL \"{0}\"".format(child_url))
                     continue
                 logging.debug("Queueing \"{0}\"".format(child_url))
-                new_resource=resource(child_url,scan_id)
+                new_resource=resource(child_url,self.scan_id)
                 new_resource.parent=cur_resource
                 if (not new_resource.domain.endswith(DOMAIN)):
                     logging.debug(
@@ -113,3 +111,4 @@ class crawler:
 
 c=crawler()
 c.crawl(START_PAGE)
+c.dbclose()
