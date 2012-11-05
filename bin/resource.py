@@ -17,6 +17,7 @@ class resource:
         domain_end=url.find('/', method_end)
         return url[method_end:domain_end]
 
+    @staticmethod
     def get_method(url):
         return url[:url.find('://') + 3]
 
