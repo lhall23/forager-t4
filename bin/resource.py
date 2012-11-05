@@ -4,6 +4,7 @@
 
 import requests
 import logging
+import time
 from bs4 import BeautifulSoup
 
 DEBUG=False
@@ -34,6 +35,7 @@ class resource:
         self.response_code=-1
         self.resource_id=None
         self.time_elapsed=-1
+        self.time_start=-1
 
         if (DEBUG):
             logging.basicConfig(level=logging.DEBUG)
@@ -59,8 +61,9 @@ class resource:
         return self.url == other.url
    
     def fetch(self):
-        # Don't verify SSL connections
+        start=time.time()
         try:
+            # Don't verify SSL connections
             r=requests.get(self.url, verify=False)
         except requests.Timeout:
             logging.info("Timed out fetching page {0}".format(self.url))
@@ -74,6 +77,11 @@ class resource:
             self.response_code=-3
             #dead or unreachable page not 404
             return
+        finally:
+            elapsed=time.time()-start
+
+        self.time_start=start
+        self.time_elapsed=elapsed
 
         if(r is None):
             logging.warn("Request failed for {0}".format(e))
