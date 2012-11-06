@@ -13,7 +13,7 @@ require_once('include/conf.php');
 <head>
 	  <meta http-equiv="Content-Type"
  content="text/html; charset=iso-8859-1">
-  <title>Your Company</title>
+  <title>Forager</title>
   <link href="css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -23,9 +23,9 @@ require_once('include/conf.php');
 </div>
 <div id="nav">
 <ul>
-  <li><a href="main">Home</a></li>
-  <li><a href="scan">Start a Scan</a></li>
-  <li><a href="<?php echo "scans.php"; ?>">View Reports</a></li>
+  <li><a href="main.php">Home</a></li>
+  <li><a href="start.php">Start a Scan</a></li>
+  <li><a href="scans.php">View Reports</a></li>
   <li><a href="compare">Compare Reports</a></li>
   <li><a href="extra">Extra</a></li>
   <li style="border-right: medium none;"><a href="#">Links</a></li>
@@ -121,22 +121,24 @@ E.mail: Spsu@Spsu.edu<br>
 <br>
 Fax: 678-915-7778<br>
 <br>
-Phone: 678-915-7778/<br>
+Phone: 678-915-7778<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-000.000.0000 </p>
+</p>
 </div>
 </div>
 </div>
 <div id="footer">
 <p>@ Copyright 2010. Designed by <a target="_blank"
  href="http://www.htmltemplates.net/">HTML Templates</a></p>
+ <!--Yes we know this copyright is here. We left it in to show to you that we used a
+ template online, and changed it to our needs. This was to make sure that you know that 
+ we are not trying to pass this off as 100% our work!!-->
 <ul class="footer-nav">
-  <li><a href="#">Home</a></li>
-  <li><a href="#">About us</a></li>
-  <li><a href="#">Recent articles</a></li>
-  <li><a href="#">Email</a></li>
-  <li><a href="#">Resources</a></li>
-  <li><a href="#">Links</a></li>
+  <li><a href="main.php">Home</a></li>
+  <li><a href="start.php">Start a Scan</a></li>
+  <li><a href="scans.php">View Reports</a></li>
+  <li><a href="compare">Compare Reports</a></li>
+  <li><a href="extra">Extra</a></li>
 </ul>
 </div>
 </div>

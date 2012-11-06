@@ -34,6 +34,7 @@ class resource:
         self.children=[]
         self.response_code=-1
         self.resource_id=None
+        self.time_started=-1
         self.time_elapsed=-1
         self.time_start=-1
 
@@ -80,7 +81,7 @@ class resource:
         finally:
             elapsed=time.time()-start
 
-        self.time_start=start
+        self.time_started=start
         self.time_elapsed=elapsed
 
         if(r is None):
@@ -90,6 +91,7 @@ class resource:
             #3 above should not happen on day to day bassis
         self.visited=True
         self.response_code=r.status_code
+        self.response_time=r.headers
         
         # Only try to parse html content
         if (r.headers.get('content-type').startswith('text/html')):
