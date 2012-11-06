@@ -23,9 +23,9 @@ require_once('include/conf.php');
 </div>
 <div id="nav">
 <ul>
-  <li><a href="main">Home</a></li>
-  <li><a href="scan">Start a Scan</a></li>
-  <li><a href="<?php echo "Reports.php"; ?>">View Reports</a></li>
+  <li><a href="main.php">Home</a></li>
+  <li><a href="start.php">Start a Scan</a></li>
+  <li><a href="scans.php">View Reports</a></li>
   <li><a href="compare">Compare Reports</a></li>
   <li><a href="extra">Extra</a></li>
   <li style="border-right: medium none;"><a href="#">Links</a></li>
@@ -118,29 +118,29 @@ $(document).ready(function() {
 </div>
 <div
  style="padding: 5px 10px 15px; background: rgb(216, 214, 215) none repeat scroll 0%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">
-<p class="text-2"> 00/00 Lorem Ipsum is simply dummy text of the
-printing and typesetting.<br>
+<p class="text-2"> Southern Polytechnic State University.<br>
 <br>
-E.mail: abc@Lorem Ipsum<br>
+E.mail: Spsu@Spsu.edu<br>
 <br>
-Fax: 000.000.0000<br>
+Fax: 678-915-7778<br>
 <br>
-Phone: 000.000.0000/<br>
+Phone: 678-915-7778<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-000.000.0000 </p>
-</div>
+</p></div>
 </div>
 </div>
 <div id="footer">
 <p>@ Copyright 2010. Designed by <a target="_blank"
  href="http://www.htmltemplates.net/">HTML Templates</a></p>
+ <!--Yes we know this copyright is here. We left it in to show to you that we used a
+ template online, and changed it to our needs. This was to make sure that you know that 
+ we are not trying to pass this off as 100% our work!!-->
 <ul class="footer-nav">
-  <li><a href="#">Home</a></li>
-  <li><a href="#">About us</a></li>
-  <li><a href="#">Recent articles</a></li>
-  <li><a href="#">Email</a></li>
-  <li><a href="#">Resources</a></li>
-  <li><a href="#">Links</a></li>
+  <li><a href="main.php">Home</a></li>
+  <li><a href="start.php">Start a Scan</a></li>
+  <li><a href="scans.php">View Reports</a></li>
+  <li><a href="compare">Compare Reports</a></li>
+  <li><a href="extra">Extra</a></li>
 </ul>
 </div>
 </div>
