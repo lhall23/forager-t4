@@ -127,7 +127,6 @@ class crawler:
         resource_list[url]=resource(url,self.scan_id)
 
         while (len(pending) > 0):
-            logging.debug(pending)
             cur_url=pending.popleft()
 
             assert cur_url in resource_list, "{0} ".format(cur_url) + \
