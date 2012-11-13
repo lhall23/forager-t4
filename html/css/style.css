@@ -230,54 +230,49 @@ ul.footer-nav li a:hover {
 	text-decoration:none;
 	}
 	
-	table.forager {
+table.pretty {
     width: 100%;
     clear: both;
 	}
  
-table.forager td,
-table.forager th {
+table.pretty td,
+table.pretty th {
     padding: 5px;
     border: 1px solid #fff;
 }
 	
 	/* Header cells */
-table.forager thead th {
+table.pretty thead th {
     text-align: center;
     background: #66a9bd;
 }
 	
 	/* Body cells */
-table.forager tbody th {
+table.pretty tbody th {
     text-align: left;
     background: #91c5d4;
 }
      
-table.forager tbody td {
+table.pretty tbody td {
     text-align: center;
     background: #d5eaf0;
 }
          
-table.forager tbody tr.odd td {
+table.pretty tbody tr.odd td {
     background: #bcd9e1;
 }
 
 /* Footer cells */ 
-table.forager tfoot th {
+table.pretty tfoot th {
     background: #b0cc7f;
     text-align: left;
 }
      
-table.forager tfoot td {
+table.pretty tfoot td {
     background: #d7e1c5;
     text-align: center;
     font-weight: bold;
 }
-	
-div.dataTables_wrapper {
-    background-color: #719ba7;
-}
-	
 	
 	
 	
