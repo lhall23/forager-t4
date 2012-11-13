@@ -12,6 +12,7 @@ DEBUG=False
 class resource:
     """Represent a URL/resource."""
 
+    DOMAIN_RESTRICTION=None
     @staticmethod
     def get_domain(url):
         method_end=url.find('://') + 3
@@ -21,6 +22,10 @@ class resource:
     @staticmethod
     def get_method(url):
         return url[:url.find('://') + 3]
+
+    @staticmethod
+    def set_domain(url):
+        resource.DOMAIN_RESTRICTION=url
 
     def __init__(self, url, scan_id):
         # Directory names MUST end in a trailing space in the URL
@@ -40,6 +45,11 @@ class resource:
 
         if (DEBUG):
             logging.basicConfig(level=logging.DEBUG)
+
+        if (resource.DOMAIN_RESTRICTION is None):
+            msg="Domain restriction is unset. " + \
+                "You are scanning the entire internet."
+            logging.critical(msg)
 
     def __str__(self):
         representation = "<resource( url: {0}, domain: {1}".format(
@@ -78,6 +88,11 @@ class resource:
             self.response_code=-3
             #dead or unreachable page not 404
             return
+        except Exception as e:
+            msg="Unknown, exception {0}. This is a bug in 'requests'." 
+            logging.info("".format(e))
+            self.response_code=-4
+            return
         finally:
             elapsed=time.time()-start
 
@@ -92,10 +107,20 @@ class resource:
         self.visited=True
         self.response_code=r.status_code
         self.response_time=r.headers
-        
+
+        # Don't parse contents of outside URLs 
+        if (not self.domain.endswith(resource.DOMAIN_RESTRICTION)):
+            msg="Not parsing contents of URL \"{0}\", outside of {1}"
+            logging.debug(msg.format(self.url, resource.DOMAIN_RESTRICTION))
+            return
+
         # Only try to parse html content
-        if (r.headers.get('content-type').startswith('text/html')):
-            self.parse_children(r)
+        if (not r.headers.get('content-type').startswith('text/html')):
+            msg="Not parsing contents of non-html URL \"{0}\""
+            logging.debug(msg.format(self.url))
+            return 
+
+        self.parse_children(r)
    
     def parse_children(self, request):
         if (not self.visited):
@@ -112,6 +137,22 @@ class resource:
             attr=link.get('href')
             if (attr is None):
                 continue
+            if (attr[0:7] == "mailto:"):
+                logging.info("Ignored mailto link \"{0}\" on {1}".format(
+                    attr, self.url))
+                continue
+            if (attr[0:11] == "javascript:"):
+                logging.info("Ignored javascript \"{0}\" data on {1}".format(
+                    attr, self.url))
+                continue
+            if (attr[0:8] == "callto:"):
+                logging.info("Ignored bogus URI \"{0}\" data on {1}".format(
+                    attr, self.url))
+                continue
+            if (attr[0:4] == "tel:"):
+                logging.info("Ignored bogus URI \"{0}\" data on {1}".format(
+                    attr, self.url))
+                continue
             self.children.append(self.canonicalize(attr))
         for link in parsed.find_all(['script', 'img']):
             attr=link.get('src')
@@ -121,15 +162,17 @@ class resource:
                 logging.info("Ignored inline image data on {0}".format(
                     self.url))
                 continue
-            if (attr[0:7] == "mailto:"):
-                logging.info("Ignored mailto link {0} data in {1}".format(
-                    attr, self.url))
-                continue
             self.children.append(self.canonicalize(attr))
 
     def canonicalize(self, url):
-        # Absolute URL
-        if (url.startswith('http://') or url.startswith('https://')):
+        # Absolute URL 
+        # We can't deal with the last two URI schemes, but we should 
+        # make sure we can record them anyway (especially file:// as this is 
+        # always wrong.
+        if (url.startswith('http://') or 
+                url.startswith('https://') or 
+                url.startswith('mms://') or
+                url.startswith('file://')):
             return url
         elif (url.startswith('/')):
             can_link=self.method + self.domain + url
@@ -159,5 +202,5 @@ class resource:
     
 # This only to be run when testing hte module independently
 def main():
-    r=resource("http://minerva.gtf.org/test/")
+    r=resource("http://minerva.gtf.org/test/", "1")
     r.fetch()

@@ -1,0 +1,13 @@
+Pages that the crawler has had an issue with: 
+
+Scan 11 stopped at: http://www.spsu.edu/contacts.htm
+Parent is http://spsu.edu/
+
+Scan 13 crashed with:
+INFO:root:Processing "http://.advancement.spsu.edu/alumni/"
+CRITICAL:root:Something exploded: label empty or too long
+	raise UnicodeError("label empty or too long")
+*FIXED*
+
+Set up a resource.fetchable_uri(): 
+that will allow recording of URIs that we can't retrieve.
