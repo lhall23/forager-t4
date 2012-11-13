@@ -79,7 +79,7 @@ if (array_key_exists('logout', $_GET)){
 <body>
 <div id="container">
 <div id="header"> <img src="images/logo.jpg" alt="" id="logo">
-<h1 id="logo-text">Forager</h1>
+<h1 id="logo-text"></h1>
 </div>
 <div id="nav">
 <ul>
