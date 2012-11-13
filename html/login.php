@@ -90,8 +90,8 @@ if (array_key_exists('logout', $_GET)){
 <h1 class="h-text-1">LOGIN</h1>
 
 <ul class="list-1">
-
-    <table>
+	<form action="login.php" method="post" id="login">
+		<table>
             <tr>
                 <td>User Name:</td>
                 <td><input name="user_name" type="text"></td>
@@ -115,6 +115,7 @@ if (array_key_exists('logout', $_GET)){
                 </td>
             </tr>
         </table>
+	</form>
 </ul>
 
 
