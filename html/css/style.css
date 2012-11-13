@@ -230,10 +230,38 @@ ul.footer-nav li a:hover {
 	text-decoration:none;
 	}
 	
-	table.pretty tbody td {
+	table.forager {
+    width: 100%;
+    clear: both;
+	}
+ 
+table.forager td,
+table.forager th {
+    padding: 5px;
+    border: 1px solid #fff;
+}
+	
+	/* Header cells */
+table.forager thead th {
+    text-align: center;
+    background: #66a9bd;
+}
+	
+	/* Body cells */
+table.forager tbody th {
+    text-align: left;
+    background: #91c5d4;
+}
+     
+table.forager tbody td {
     text-align: center;
     background: #d5eaf0;
 }
+         
+table.forager tbody tr.odd td {
+    background: #bcd9e1;
+}
+
 	
 	
 	
