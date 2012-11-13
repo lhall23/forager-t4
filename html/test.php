@@ -1,74 +1,6 @@
 <?php
 require_once("include/conf.php");
 require_once("include/session.php");
-
-/* 
- * login.php
- * -Lee Hall Thu 06 Sep 2012 10:23:45 PM EDT
- * edits by Matthew Powell
- * Allow the user to login
- */
-require_once('include/secure.php');
-require_once('include/conf.php');
-
-//Is there a user trying to log in?
-if (array_key_exists('login', $_POST)){
-
-    if (!array_key_exists('user_name', $_POST) || 
-            !array_key_exists('password', $_POST) ){
-        die("User or password not set. How did you get here?");
-    }
-	$UserName=strtolower($_POST['user_name']);
-    // Get user info from database. Only retrieve users who have authenticated
-    // their accounts.
-    // If this gets slow, we can pull the quota after getting user_id so we
-    // don't have to scan the whole files table, but this works for now
-    $sql="SELECT user_id,password
-            FROM users                                                                      
-            WHERE user_name=$1;";
-    $params=array($UserName);
-    $results=pg_query_params($conn, $sql, $params);
-    if (!$results || pg_num_rows($results) > 1){
-        $msg="Unrecoverable database error.";
-        trigger_error($msg);
-        die($msg);
-    }
-
-    //Bail and reload the page if we didn't find a user
-    $row=pg_fetch_array($results);      
-    if (! $row){
-        header("Location: $_SERVER[PHP_SELF]?msg=Unknown User");
-        die("User not found.");
-    }
-
-    //Does the password match?
-    if (md5($_POST['password']) == $row['password']){
-        session_start();
-        $_SESSION['user_name']=$UserName;
-        $_SESSION['user_id']=$row['user_id'];
-		
-		header("Location: main.php");
-		
-		die("Done loading user.");
-    } else {
-        header("Location: $_SERVER[PHP_SELF]?msg=Bad Password");
-        // This leaks information about whether or not a user exists on the
-        // system. The ease of use is a net positive, however.
-        // This problem can be alleviated with rate limiting on the login.
-        die("Bad password.");
-    }
-}
-if (array_key_exists('logout', $_GET)){
-
-    // Make sure the session's started so we have access to the variables we
-    // want to clear
-    session_start();
-    $_SESSION=array();
-    session_destroy();
-
-    header("Location: $_SERVER[PHP_SELF]");
-    die("Reloading login page.");
-}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -80,55 +12,38 @@ if (array_key_exists('logout', $_GET)){
 </head>
 <body>
 <div id="container">
-<div id="header"> <img src="images/logo.jpg" alt="" id="logo">
-<h1 id="logo-text">Forager</h1>
+<div id="header"> 
 </div>
 <div id="nav">
 <ul>
-
+  <li><a href="main.php">Home</a></li>
+  <li><a href="start.php">Start a Scan</a></li>
+  <li><a href="scans.php">View Reports</a></li>
+  <li><a href="compare">Compare Reports</a></li>
+  <li><a href="extra">Extra</a></li>
+  <li style="border-right: medium none;"><a href="#">Links</a></li>
 </ul>
 </div>
 <div id="site-content">
 <div id="col-left">
-<h1 class="h-text-1">LOGIN</h1>
-
-<ul class="list-1">
-
-    <table>
-            <tr>
-                <td>User Name:</td>
-                <td><input name="user_name" type="text"></td>
-            </tr>
-            <tr>
-                <td>Password:</td>
-                <td><input name="password" type="password"></td>
-            </tr>
-            <tr>
-                <td><input name="login" type="hidden"</td>
-                <td><input value="Login" type="submit"></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>
-<?php
-    if (array_key_exists('msg', $_GET)){
-        echo "$_GET[msg]";
-    }   
-?>
-                </td>
-            </tr>
-        </table>
-</ul>
-
-
-<div>&nbsp;</div>
-
+<h1 class="h-text-1">Start a Scan</h1>
 
 </div>
+
 </div>
 <div id="footer">
-
-
+<p>@ Copyright 2010. Designed by <a target="_blank"
+ href="http://www.htmltemplates.net/">HTML Templates</a></p>
+ <!--Yes we know this copyright is here. We left it in to show to you that we used a
+ template online, and changed it to our needs. This was to make sure that you know that 
+ we are not trying to pass this off as 100% our work!!-->
+<ul class="footer-nav">
+  <li><a href="main.php">Home</a></li>
+  <li><a href="start.php">Start a Scan</a></li>
+  <li><a href="scans.php">View Reports</a></li>
+  <li><a href="compare">Compare Reports</a></li>
+  <li><a href="extra">Extra</a></li>
+</ul>
 </div>
 </div>
 </body>
