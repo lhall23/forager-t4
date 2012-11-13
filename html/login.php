@@ -9,6 +9,7 @@ require_once("include/session.php");
  * Allow the user to login
  */
 //Is there a user trying to log in?
+
 if (array_key_exists('login', $_POST)){
 
     if (!array_key_exists('user_name', $_POST) || 
