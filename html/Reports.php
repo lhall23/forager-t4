@@ -16,8 +16,8 @@ require_once('include/conf.php');
 </head>
 <body>
 <div id="container">
-<div id="header"> <img src="images/logo.jpg" alt="" id="logo">
-<h1 id="logo-text">Reports</h1>
+<div id="header"> 
+
 </div>
 <div id="nav">
 <ul>
