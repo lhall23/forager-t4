@@ -52,7 +52,7 @@ else
 $query = "SELECT resource_id, url, 
     date_trunc('minutes', start_date) AS start_date, 
         response_time, http_response 
-    FROM resources WHERE scan_id = $1 and resources.html_response <> '200'"; 
+    FROM resources WHERE scan_id = $1 AND http_response <> 200"; 
 $scans = pg_query_params($conn, $query,array($scan_id));
 
 $js_array = "[";
