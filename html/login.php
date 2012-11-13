@@ -1,6 +1,5 @@
 <?php
 require_once("include/conf.php");
-require_once("include/session.php");
 
 /* 
  * login.php
