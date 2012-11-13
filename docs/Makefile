@@ -85,5 +85,4 @@ Slides.pdf: Slides
 		templates/pdf_tmpl.tex > $</$<.tex 
 	cd $<; \
 		$(PDFLATEX) $<.tex; \
-		rm $<_list.pdf; \
 		mv $@ .. 
