@@ -4,6 +4,9 @@
 *.pyc
 __pychache__
 
+#We don't need to keep 100M of /dev/urandom
+html/test/why.wmv
+
 #These should be regenerated every time
 *mbox.orig
 *_list.pdf
