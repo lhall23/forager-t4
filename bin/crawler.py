@@ -15,6 +15,7 @@ CONN_STRING="dbname=forager user=apache"
 DOMAIN="spsu.edu"
 START_PAGE="http://spsu.edu/"
 LOGFILE="/var/log/forager.log"
+
 # DOMAIN="gtf.org"
 # START_PAGE="http://minerva.gtf.org/test/"
 
@@ -115,6 +116,7 @@ class crawler:
 
     def crawl(self,url):
         logging.info("Starting crawl at {0}.".format(url))
+        resource.set_domain(DOMAIN)
         pid=os.getpid()
         create_scan_sql="""INSERT INTO scans(start_time,pid) 
             VALUES (NOW(), %s) RETURNING scan_id;"""
@@ -127,7 +129,6 @@ class crawler:
         resource_list[url]=resource(url,self.scan_id)
 
         while (len(pending) > 0):
-            logging.debug(pending)
             cur_url=pending.popleft()
 
             assert cur_url in resource_list, "{0} ".format(cur_url) + \
@@ -151,13 +152,9 @@ class crawler:
                 logging.debug("Queueing \"{0}\"".format(child_url))
                 new_resource=resource(child_url,self.scan_id)
                 new_resource.parent=cur_resource
-                if (not new_resource.domain.endswith(DOMAIN)):
-                    logging.debug(
-                        "Skipping URL \"{0}\", outside of {1}".format(
-                            child_url, DOMAIN))
-                    continue
                 pending.append(child_url)
                 resource_list[child_url]=new_resource
+        logging.info("All queued items have been scanned.");
 
 try:
     c=crawler()

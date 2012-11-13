@@ -8,7 +8,7 @@ require_once('include/conf.php');
 
 <script src="/javascript/jquery/jquery.js">
 </script>
-<script src="/js/jquery.dataTables.js">
+<script src="js/jquery.dataTables.js">
 </script>
 <head>
 	  <meta http-equiv="Content-Type"
@@ -42,7 +42,7 @@ require_once('include/conf.php');
 
 <?php
 
-$query = "SELECT scan_id, start_time, end_time, end_time - start_time as elapsed_time FROM scans"; 
+$query = "SELECT scan_id, date_trunc('minutes', start_time) AS start_time, date_trunc('minutes', end_time) AS end_time , date_trunc('minutes', end_time - start_time) as elapsed_time FROM scans"; 
 $scans = pg_query($conn, $query);
 
 $js_array = "[";

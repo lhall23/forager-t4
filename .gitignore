@@ -5,4 +5,19 @@
 __pychache__
 
 #These should be regenerated every time
+*mbox.orig
+*_list.pdf
 docs/Source/Source.pdf
+docs/Appendix-C_Email.pdf
+docs/Commit_Logs.pdf
+docs/Commit_Logs/Commit_Logs.tex
+docs/Email/Email.tex
+docs/Email/Email.pdf
+docs/Minutes.pdf
+docs/Minutes/Minutes.tex
+docs/Slides.pdf
+docs/Slides/Slides.tex
+docs/Source.pdf
+docs/Status_Reports.pdf
+docs/Status_Reports/Status_Reports.tex
+

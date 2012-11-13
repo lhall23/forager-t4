@@ -6,10 +6,8 @@ require_once('include/secure.php');
 require_once('include/conf.php');
 ?>
 
-<script src="/javascript/jquery/jquery.js">
-</script>
-<script src="/js/jquery.dataTables.js">
-</script>
+<script src="/javascript/jquery/jquery.js"></script>
+<script src="js/jquery.dataTables.js"></script>
 <head>
 	  <meta http-equiv="Content-Type"
  content="text/html; charset=iso-8859-1">
@@ -51,7 +49,8 @@ else
 	die;
 }
 
-$query = "SELECT resource_id, url, start_date, response_time, http_response FROM resources WHERE scan_id = $1"; 
+$query = "SELECT resource_id, url, date_trunc('minutes', start_date), 
+	date_trunc('minutes', response_time), http_response FROM resources WHERE scan_id = $1"; 
 $scans = pg_query_params($conn, $query,array($scan_id));
 
 $js_array = "[";

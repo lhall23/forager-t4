@@ -26,7 +26,7 @@ Source.pdf: Source
 		$(PDFLATEX) $<.tex	
 	@echo; echo; echo;
 	@echo "+++ There are no code listings for the following files:"
-	@find ../html -iname \*php -o -iname \*js |\
+	find ../html ../bin -iname \*php -o -iname \*py |\
 		while read FN; do\
 			grep "$$FN" Source/Source.tex || \
 				echo "\lstinputlisting{../$$FN}"; \
@@ -71,7 +71,7 @@ Minutes.pdf: Minutes templates/pdf_tmpl.tex
 
 Commit_Logs.pdf: APP_SEC=E
 Commit_Logs.pdf: Commit_Logs templates/txt_tmpl.tex
-	git log > $</$@_list.txt
+	git log > $</$<_list.txt
 	sed 's/<<APP_SEC>>/$(APP_SEC)/g;s/<<TITLE>>/$</g' \
 		templates/txt_tmpl.tex > $</$<.tex 
 	cd $<; \
@@ -81,11 +81,8 @@ Commit_Logs.pdf: Commit_Logs templates/txt_tmpl.tex
 
 Slides.pdf: APP_SEC=F
 Slides.pdf: Slides 
-	$(PDFTK) $(wildcard $</*.pdf) cat output \
-		$</$<_list.pdf 
 	sed 's/<<APP_SEC>>/$(APP_SEC)/g;s/<<TITLE>>/$</g' \
 		templates/pdf_tmpl.tex > $</$<.tex 
 	cd $<; \
 		$(PDFLATEX) $<.tex; \
-		rm $<_list.pdf; \
 		mv $@ .. 
