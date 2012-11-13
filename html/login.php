@@ -1,4 +1,7 @@
 <?php
+require_once("include/conf.php");
+require_once("include/session.php");
+
 /* 
  * login.php
  * -Lee Hall Thu 06 Sep 2012 10:23:45 PM EDT
@@ -67,39 +70,66 @@ if (array_key_exists('logout', $_GET)){
     die("Reloading login page.");
 }
 ?>
-<HTML> 
-<HEAD>
-  <TITLE>Forager Login</TITLE>
-</HEAD>
-<BODY>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+  <title>Forager</title>
+  <link href="css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div id="container">
+<div id="header"> <img src="images/logo.jpg" alt="" id="logo">
+<h1 id="logo-text">Forager</h1>
+</div>
+<div id="nav">
+<ul>
 
-	<table>
-		<tr><td><form action="<?php echo $_SERVER['PHP_SELF']; ?>" 
-			method="post" id="login">
-		<tr>
-			<td>User Name:</td>
-			<td><input name="user_name" type="text"></td>
-		</tr>
-		<tr>
-			<td>Password:</td>
-			<td><input name="password" type="password"></td>
-		</tr>
-		<tr>
-			<td><input name="login" type="hidden"</td>
-			<td><input value="Login" type="submit"></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td>
+</ul>
+</div>
+<div id="site-content">
+<div id="col-left">
+<h1 class="h-text-1">LOGIN</h1>
+
+<ul class="list-1">
+
+    <table>
+            <tr>
+                <td>User Name:</td>
+                <td><input name="user_name" type="text"></td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td><input name="password" type="password"></td>
+            </tr>
+            <tr>
+                <td><input name="login" type="hidden"</td>
+                <td><input value="Login" type="submit"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
 <?php
-if (array_key_exists('msg', $_GET)){
-	echo "$_GET[msg]";
-}   
+    if (array_key_exists('msg', $_GET)){
+        echo "$_GET[msg]";
+    }   
 ?>
-			</td>
-		</tr>
-	</table>
-    </form>
-</BODY>
-</HTML>
+                </td>
+            </tr>
+        </table>
+</ul>
 
+
+<div>&nbsp;</div>
+
+
+</div>
+</div>
+<div id="footer">
+
+
+</div>
+</div>
+</body>
+</html>
