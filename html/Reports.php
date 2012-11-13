@@ -51,7 +51,8 @@ else
 	die;
 }
 
-$query = "SELECT resource_id, url, start_date, response_time, http_response FROM resources WHERE scan_id = $1"; 
+$query = "SELECT resource_id, url, date_trunc('minutes', start_date), 
+	date_trunc('minutes', response_time), http_response FROM resources WHERE scan_id = $1"; 
 $scans = pg_query_params($conn, $query,array($scan_id));
 
 $js_array = "[";

@@ -72,79 +72,34 @@ if (array_key_exists('logout', $_GET)){
   <TITLE>Forager Login</TITLE>
 </HEAD>
 <BODY>
-<table cellspacing="1" cellpadding="0" border="0"
-    id="shell" height="471" width="1168">
-   <tr height="50">
-      <td height="83" colspan="2" bgcolor="white">
-         <table title="Banner" id="banner" border="0">
-            <tr><td width="1195"></a></td></tr>
-         </table>
-      <img src="images/Honeycomb Logo 2.jpg" 
-          width="1221" height="137" alt="Honeycomb Logo 2">      </td>
-  </tr>
-   <tr height="200">
-      <td width="260" bgcolor="white">
-         <table id="navigation" title="Navigation" border="0">
-         
-         <tr><td>
- <table border="0" cellspacing="0" cellpadding="0"> 
-      </td>
-   </tr>
-    <tr height="200">
-     <td width="260" bgcolor="white">
-    
-     
-       <table id="navigation" title="Navigation" border="0">
-         
 
-        </table>
-
-        
-
-      </td><td width="397" bgcolor="white">
-
-         <table title="Content" id="content" border="0">
-            <tr><td>
-            
-            </td></tr>
-         </table>
-      </td>
-   </tr>
-</table>
- 
-            <tr><td><form action="<?php echo $_SERVER['PHP_SELF']; ?>" 
-            method="post" id="login">
-        <table>
-            <tr>
-                <td>User Name:</td>
-                <td><input name="user_name" type="text"></td>
-            </tr>
-            <tr>
-                <td>Password:</td>
-                <td><input name="password" type="password"></td>
-            </tr>
-            <tr>
-                <td><input name="login" type="hidden"</td>
-                <td><input value="Login" type="submit"></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>
+	<table>
+		<tr><td><form action="<?php echo $_SERVER['PHP_SELF']; ?>" 
+			method="post" id="login">
+		<tr>
+			<td>User Name:</td>
+			<td><input name="user_name" type="text"></td>
+		</tr>
+		<tr>
+			<td>Password:</td>
+			<td><input name="password" type="password"></td>
+		</tr>
+		<tr>
+			<td><input name="login" type="hidden"</td>
+			<td><input value="Login" type="submit"></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>
 <?php
-    if (array_key_exists('msg', $_GET)){
-        echo "$_GET[msg]";
-    }   
+if (array_key_exists('msg', $_GET)){
+	echo "$_GET[msg]";
+}   
 ?>
-                </td>
-            </tr>
-        </table>
-    </form></td></tr>
-         </table>
-      <img src="images/bigbox.jpg" width="432" height="432">      </td>
-      </td>
-   </tr>
-</table> 
-</table>
+			</td>
+		</tr>
+	</table>
+    </form>
 </BODY>
 </HTML>
 
