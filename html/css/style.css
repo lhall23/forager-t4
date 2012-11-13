@@ -262,8 +262,21 @@ table.forager tbody tr.odd td {
     background: #bcd9e1;
 }
 
+/* Footer cells */ 
+table.forager tfoot th {
+    background: #b0cc7f;
+    text-align: left;
+}
+     
+table.forager tfoot td {
+    background: #d7e1c5;
+    text-align: center;
+    font-weight: bold;
+}
 	
-	
+div.dataTables_wrapper {
+    background-color: #719ba7;
+}
 	
 	
 	
