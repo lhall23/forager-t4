@@ -6,10 +6,8 @@ require_once('include/secure.php');
 require_once('include/conf.php');
 ?>
 
-<script src="/javascript/jquery/jquery.js">
-</script>
-<script src="/js/jquery.dataTables.js">
-</script>
+<script src="/javascript/jquery/jquery.js"></script>
+<script src="js/jquery.dataTables.js"></script>
 <head>
 	  <meta http-equiv="Content-Type"
  content="text/html; charset=iso-8859-1">

@@ -8,7 +8,7 @@ require_once('include/conf.php');
 
 <script src="/javascript/jquery/jquery.js">
 </script>
-<script src="/js/jquery.dataTables.js">
+<script src="js/jquery.dataTables.js">
 </script>
 <head>
 	  <meta http-equiv="Content-Type"
