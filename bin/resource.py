@@ -117,9 +117,13 @@ class resource:
             attr=link.get('src')
             if (attr is None):
                 continue
-            if (attr[1:5] == "data:"):
+            if (attr[0:5] == "data:"):
                 logging.info("Ignored inline image data on {0}".format(
                     self.url))
+                continue
+            if (attr[0:7] == "mailto:"):
+                logging.info("Ignored mailto link {0} data in {1}".format(
+                    attr, self.url))
                 continue
             self.children.append(self.canonicalize(attr))
 

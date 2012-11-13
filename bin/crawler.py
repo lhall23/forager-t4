@@ -15,6 +15,7 @@ CONN_STRING="dbname=forager user=apache"
 DOMAIN="spsu.edu"
 START_PAGE="http://spsu.edu/"
 LOGFILE="/var/log/forager.log"
+
 # DOMAIN="gtf.org"
 # START_PAGE="http://minerva.gtf.org/test/"
 
@@ -157,6 +158,7 @@ class crawler:
                     continue
                 pending.append(child_url)
                 resource_list[child_url]=new_resource
+        logging.info("All queued items have been scanned.");
 
 try:
     c=crawler()
