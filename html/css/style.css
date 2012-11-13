@@ -230,7 +230,10 @@ ul.footer-nav li a:hover {
 	text-decoration:none;
 	}
 	
-	
+	table.pretty tbody td {
+    text-align: center;
+    background: #d5eaf0;
+}
 	
 	
 	
