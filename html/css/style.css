@@ -230,45 +230,45 @@ ul.footer-nav li a:hover {
 	text-decoration:none;
 	}
 	
-table.pretty {
+table.display {
     width: 100%;
     clear: both;
 	}
  
-table.pretty td,
-table.pretty th {
+table.display td,
+table.display th {
     padding: 5px;
     border: 1px solid #fff;
 }
 	
 	/* Header cells */
-table.pretty thead th {
+table.display thead th {
     text-align: center;
     background: #66a9bd;
 }
 	
 	/* Body cells */
-table.pretty tbody th {
+table.display tbody th {
     text-align: left;
     background: #91c5d4;
 }
      
-table.pretty tbody td {
+table.display tbody td {
     text-align: center;
     background: #d5eaf0;
 }
          
-table.pretty tbody tr.odd td {
+table.display tbody tr.odd td {
     background: #bcd9e1;
 }
 
 /* Footer cells */ 
-table.pretty tfoot th {
+table.display tfoot th {
     background: #b0cc7f;
     text-align: left;
 }
      
-table.pretty tfoot td {
+table.display tfoot td {
     background: #d7e1c5;
     text-align: center;
     font-weight: bold;
