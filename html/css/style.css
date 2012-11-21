@@ -20,35 +20,12 @@ img {
 	}
 	
 		
-	
-
-#container {
-	width:929px;
-	margin:6px auto;
-	
-	}
-	
 #header {
 	width:929px;
 	float:left;
 	background:url(../images/heaser-bg.jpg) no-repeat;
 	height:221px;
 	}	
-	
-#logo {	
-	width:88px;
-	float:left;
-	margin:73px 0px 0px 33px;
-	}
-	
-#logo-text {
-	font-family:Georgia, "Times New Roman", Times, serif;
-	font-size:40px;
-	color:#FFFFFF;
-	font-weight:normal;
-	float:left;
-	margin:88px 0px 0px 0px;
-	}
 
 #nav {
 	width:929px;
@@ -94,7 +71,6 @@ img {
 	width:929px;
 	float:left;
 	background:url(../images/site-bg.jpg) repeat-y;
-	
 	}
 	
 #col-right {
@@ -231,7 +207,7 @@ ul.footer-nav li a:hover {
 	}
 	
 table.display {
-    width: 100%;
+    width: "100%";
     clear: both;
 	}
  
@@ -240,34 +216,63 @@ table.display th {
     padding: 5px;
     border: 1px solid #fff;
 }
+
+table.display.table_num {
+    text-align: center;
+}
+
+table.display.table_url {
+    text-align: left;
+}
+
+table.display.table_time {
+    text-align: center;
+}
+         
 	
 	/* Header cells */
 table.display thead th {
     text-align: center;
     background: #66a9bd;
 }
-	
-	/* Body cells */
-table.display tbody th {
-    text-align: left;
-    background: #91c5d4;
+
+table.display th.table_num {
+    width: 20px;
 }
-     
-table.display tbody td {
-    text-align: center;
-    background: #d5eaf0;
+
+table.display th.table_url {
+    width: 200px;
+}
+
+table.display th.table_time {
+	width: 100px;
 }
          
+	
+	/* Body cells */
+
+table.display tbody td {
+    background: #d5eaf0;
+}
+
 table.display tbody tr.odd td {
     background: #bcd9e1;
 }
 
-/* Footer cells */ 
-table.display tfoot th {
-    background: #b0cc7f;
-    text-align: left;
+table.display td.table_num {
+	text-align: center;	
 }
-     
+
+table.display td.table_url {
+	text-align: left;	
+}
+
+table.display td.table_time {
+	text-align: center;	
+}
+         
+
+/* Footer cells */ 
 table.display tfoot td {
     background: #d7e1c5;
     text-align: center;

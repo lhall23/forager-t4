@@ -13,12 +13,12 @@ $query = "SELECT resource_id, url,
     FROM resources WHERE scan_id = $1"; 
 $reports = pg_query_params($conn, $query,array($scan_id));
 
-$columns=[
-    ["sTitle" => "Resource ID",     "sClass" => "center"],
-    ["sTitle" => "URL",             "sClass" => "center"],
-    ["sTitle" => "Response Time",   "sClass" => "center"],
-    ["sTitle" => "HTTP Response",   "sClass" => "center"]
-];
+$columns=array(
+    array("sTitle" => "Resource ID",     "sClass" => "table_num"),
+    array("sTitle" => "URL",             "sClass" => "table_url"),
+    array("sTitle" => "Response Time",   "sClass" => "table_time"),
+    array("sTitle" => "HTTP Response",   "sClass" => "table_num")
+);
 
 $data = array();
 while($row = pg_fetch_array($reports)) {

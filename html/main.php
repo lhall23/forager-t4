@@ -10,7 +10,7 @@ require_once('include/conf.php');
 <head>
 	  <meta http-equiv="Content-Type"
  content="text/html; charset=iso-8859-1">
-  <title>Your Company</title>
+  <title>Group 4</title>
   <link href="css/style.css" rel="stylesheet" type="text/css">
 
   <script type="text/javascript">
@@ -105,7 +105,9 @@ Phone: 678-915-7778<br>
 </div>
 <div id="data_div" class="site-content" style="display: none">
   <table cellpadding="0" cellspacing="0" border="0" class="display" 
-          id="display_table">
+	  id="display_table">
+	<thead></thead>
+	<tbody></tbody>
   </table>
   <p class="text-1">&nbsp;</p>
 </div>

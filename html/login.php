@@ -72,11 +72,10 @@ if (array_key_exists('logout', $_GET)){
 <head>
   <meta http-equiv="Content-Type"
  content="text/html; charset=iso-8859-1">
-  <title>Forager</title>
+  <title>Group 4 - Forager</title>
   <link href="css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<div id="container">
 <div id="header"> 
 <h1 id="logo-text"></h1>
 </div>
@@ -85,7 +84,7 @@ if (array_key_exists('logout', $_GET)){
 
 </ul>
 </div>
-<div id="site-content">
+<div class="site-content">
 <div id="col-left">
 <h1 class="h-text-1">LOGIN</h1>
 
@@ -124,10 +123,8 @@ if (array_key_exists('logout', $_GET)){
 
 </div>
 </div>
+
 <div id="footer">
-
-
-</div>
 </div>
 </body>
 </html>

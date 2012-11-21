@@ -8,12 +8,12 @@ $query = "SELECT scan_id,
     FROM scans"; 
 $scans = pg_query($conn, $query);
 
-$columns=[
-    ["sTitle" => "Scan ID",     "sClass" => "center"],
-    ["sTitle" => "Start Time",  "sClass" => "center"],
-    ["sTitle" => "End Time",    "sClass" => "center"],
-    ["sTitle" => "Run Time",    "sClass" => "center"]
-];
+$columns=array(
+    array("sTitle" => "Scan ID",     "sClass" => "table_num"),
+    array("sTitle" => "Start Time",  "sClass" => "table_time"),
+    array("sTitle" => "End Time",    "sClass" => "table_time"),
+    array("sTitle" => "Run Time",    "sClass" => "table_time")
+);
 
 $data = array();
 while($row = pg_fetch_array($scans)) {
