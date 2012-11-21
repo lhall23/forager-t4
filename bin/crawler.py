@@ -11,7 +11,7 @@ import sys
 import os
 import argparse
 
-DEBUG=True
+DEBUG=False
 CONN_STRING="dbname=forager user=apache"
 DOMAIN="spsu.edu"
 START_PAGE="http://spsu.edu/"
@@ -44,6 +44,8 @@ class crawler:
 
         signal.signal(signal.SIGINT, self.sig_handler)
         signal.signal(signal.SIGTERM, self.sig_handler)
+        signal.signal(signal.SIGCONT, self.sig_handler)
+        signal.signal(signal.SIGUSR1, self.sig_handler)
       
         if (not foreground): 
             logging.debug("Daemonizing process")
@@ -72,6 +74,12 @@ class crawler:
             logging.warn("Caught SIGTERM. Exiting.")
             self.dbclose()
             sys.exit(0)
+        elif (sig == signal.SIGUSR1):
+            logging.warn("Caught pause signal.")
+            signal.pause()
+        elif (sig == signal.SIGCONT):
+            logging.warn("Caught continue signal.")
+
 
     def dbinit(self):
 
@@ -193,7 +201,7 @@ def main():
         "to recheck (You may list as many you like, but you must specify -d)")
     args=parser.parse_args(sys.argv[1:]) 
 
-    if (args.verbose==True):
+    if (args.verbose):
         DEBUG=True
 
     if (args.not_response and args.response):
