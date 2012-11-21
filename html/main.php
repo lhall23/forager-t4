@@ -1,30 +1,69 @@
-<?php
-require_once("include/conf.php");
-require_once("include/session.php");
-?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+
+<?php
+require_once('include/conf.php');
+?>
+
+<script src="/javascript/jquery/jquery.js"></script>
+<script src="js/jquery.dataTables.js"></script>
 <head>
-  <meta http-equiv="Content-Type"
+	  <meta http-equiv="Content-Type"
  content="text/html; charset=iso-8859-1">
-  <title>Forager</title>
+  <title>Your Company</title>
   <link href="css/style.css" rel="stylesheet" type="text/css">
+
+  <script type="text/javascript">
+function fetch_table(url){
+        $.getJSON(
+            url,
+            function(data) {
+                $('#display_table').dataTable({
+                    "bDestroy": true,
+                    "sPaginationType": "full_numbers",
+                    "aoColumns": data['aoColumns'],
+                    "aaData": data['aaData']
+                });   
+            }
+        );
+}
+
+function show_home() {
+    $('#welcome_div').show();
+    $('#data_div').hide();
+}
+
+function show_list(){
+    $('#welcome_div').hide();
+    $('#data_div').show();
+    fetch_table('scans_json.php');
+}
+
+function show_scan(scan_id){
+    $('#welcome_div').hide();
+    $('#data_div').show();
+    fetch_table('reports_json.php?scan_id=' + scan_id);
+}
+
+$(document).ready(function() {
+        fetch_table('scans_json.php');
+});
+
+  </script>
 </head>
 <body>
-<div id="container">
-<div id="header"> 
-</div>
+<div id="header"></div>
 <div id="nav">
 <ul>
-  <li><a href="main.php">Home</a></li>
+  <li><a href="javascript:show_home();">Home</a></li>
   <li><a href="start.php">Start a Scan</a></li>
-  <li><a href="scans.php">View Reports</a></li>
+  <li><a href="javascript:show_list()">View Reports</a></li>
   <li><a href="compare">Compare Reports</a></li>
   <li><a href="extra">Extra</a></li>
   <li style="border-right: medium none;"><a href="#">Links</a></li>
 </ul>
 </div>
-<div id="site-content">
+<div id="welcome_div" class="site-content" style="display: inline">
 <div id="col-left">
 <h1 class="h-text-1">WELCOME</h1>
 <p class="text-1"><strong>Group 4 is an entity that strives to give its customer the best  software agent technology that is available. Our product is called Forager and it provides you with the following capabilities:</strong></p>
@@ -45,8 +84,7 @@ require_once("include/session.php");
 <div style="padding: 30px 10px 10px;">
 <h2 class="h-text-2">Latest News</h2>
 <h3 class="h-text-3">Forager Version 1.0</h3>
-<p class="text-2">Version 1.0 has been released. At the moment, forager is capable of searching the websites and populating a report that lists off the errors encountered. The sorting feature works on a basic level.</p>
-
+<p class="text-2">Version 1.0 has been released. At the moment, forager is capable of searching the websites and populating a report that lists off the erros encountered.</p>
 </div>
 <div>&nbsp;</div>
 <div style="padding: 5px 10px;">
@@ -62,24 +100,28 @@ Fax: 678-915-7778<br>
 <br>
 Phone: 678-915-7778<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</p>
+</p></div>
 </div>
 </div>
+<div id="data_div" class="site-content" style="display: none">
+  <table cellpadding="0" cellspacing="0" border="0" class="display" 
+          id="display_table">
+  </table>
+  <p class="text-1">&nbsp;</p>
 </div>
 <div id="footer">
-<p>@ Copyright 2010. Designed by <a target="_blank"
- href="http://www.htmltemplates.net/">HTML Templates</a></p>
- <!--Yes we know this copyright is here. We left it in to show to you that we used a
- template online, and changed it to our needs. This was to make sure that you know that 
- we are not trying to pass this off as 100% our work!!-->
-<ul class="footer-nav">
-  <li><a href="main.php">Home</a></li>
-  <li><a href="start.php">Start a Scan</a></li>
-  <li><a href="scans.php">View Reports</a></li>
-  <li><a href="compare">Compare Reports</a></li>
-  <li><a href="extra">Extra</a></li>
-</ul>
-</div>
+  <p>@ Copyright 2010. Designed by <a target="_blank"
+    href="http://www.htmltemplates.net/">HTML Templates</a></p>
+  <!--Yes we know this copyright is here. We left it in to show to you that we
+  used a template online, and changed it to our needs. This was to make sure
+  that you know that we are not trying to pass this off as 100% our work!!-->
+  <ul class="footer-nav">
+    <li><a href="main.php">Home</a></li>
+    <li><a href="start.php">Start a Scan</a></li>
+    <li><a href="scans.php">View Reports</a></li>
+    <li><a href="compare">Compare Reports</a></li>
+    <li><a href="extra">Extra</a></li>
+  </ul>
 </div>
 </body>
 </html>

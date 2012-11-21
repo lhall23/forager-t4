@@ -90,7 +90,7 @@ img {
 	text-decoration:underline;
 	}	
 		
-#site-content {
+.site-content {
 	width:929px;
 	float:left;
 	background:url(../images/site-bg.jpg) repeat-y;
