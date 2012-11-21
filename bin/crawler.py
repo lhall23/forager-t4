@@ -9,6 +9,7 @@ import logging
 import signal
 import sys
 import os
+import argparse
 
 DEBUG=True
 CONN_STRING="dbname=forager user=apache"
@@ -21,16 +22,36 @@ LOGFILE="/var/log/forager.log"
 
 class crawler:
 
-    def __init__(self):
+    def __init__(self, foreground=False):
+
+        if (foreground):
+            LOGFILE=None
+
         if (DEBUG):
-            logging.basicConfig(level=logging.DEBUG, filename=LOGFILE)
+            log_level=logging.DEBUG
+        else: 
+            log_level=logging.INFO
+        try:
+            logging.basicConfig(level=log_level, filename=LOGFILE)
+        except IOError  as e:
+            logging.basicConfig(level=log_level)
+            logging.warn("Error {0} encountered opening {1}".format(
+                e,LOGFILE))
+            foreground=True
+
+        if (DEBUG):
             logging.debug("Debugging enabled.")
-        else:
-            logging.basicConfig(level=logging.INFO)
+
         signal.signal(signal.SIGINT, self.sig_handler)
         signal.signal(signal.SIGTERM, self.sig_handler)
-        
-        self.daemonize()
+      
+        if (not foreground): 
+            logging.debug("Daemonizing process")
+            self.daemonize()
+        else:
+            msg="Leaving process in foreground, output redirected to console."
+            logging.debug(msg)
+
         self.dbinit()
 
     def dbclose(self):        
@@ -156,9 +177,44 @@ class crawler:
                 resource_list[child_url]=new_resource
         logging.info("All queued items have been scanned.");
 
-try:
-    c=crawler()
-    c.crawl(START_PAGE)
-    c.dbclose()
-except Exception as e:
-    logging.critical("Something exploded: {0}".format(e))
+def main():
+    parser = argparse.ArgumentParser(description='Webcrawler')
+    parser.add_argument('-v', action='store_true', dest="verbose",
+        help="Enable debugging")
+    parser.add_argument('-d', action='store', dest="diff", type=int, 
+        help="Recheck broken links from scan with the given id")
+    parser.add_argument('-f', action='store_true', dest="foreground",
+        help="Run in foreground and do not detatch")
+    parser.add_argument('-r', action='append', dest="response", type=int, 
+        help="Specifies what kind of links to recheck (You may list as " +\
+        "many you like, but you must specify -d)")
+    parser.add_argument('-R', action='append', dest="not_response", type=int, 
+        help="Specifies what kind of links you DO NOT want " + \
+        "to recheck (You may list as many you like, but you must specify -d)")
+    args=parser.parse_args(sys.argv[1:]) 
+
+    if (args.verbose==True):
+        DEBUG=True
+
+    if (args.not_response and args.response):
+        print("Specifying a set and a negation to check is undefined")
+        sys.exit(1)
+    if ((args.not_response or args.response) and not args.diff):
+        msg="Specifying a set of results and no report makes no sense"
+        print(msg)
+        sys.exit(1)
+    if (args.diff and not args.response and not args.not_response):
+        args.not_response=(404,)
+
+    try:
+        c=crawler(args.foreground)
+        if (args.diff):
+            print("Not implemented")
+        else: 
+            c.crawl(START_PAGE)
+        c.dbclose()
+    except Exception as e:
+        logging.critical("Something exploded: {0}".format(e))
+
+if __name__ == "__main__":
+    main()
