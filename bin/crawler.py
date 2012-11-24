@@ -23,16 +23,18 @@ LOGFILE="/var/log/forager.log"
 class crawler:
 
     def __init__(self, foreground=False):
+        global LOGFILE
+        self.LOGFILE=LOGFILE 
 
         if (foreground):
-            LOGFILE=None
+            self.LOGFILE=None
 
         if (DEBUG):
             log_level=logging.DEBUG
         else: 
             log_level=logging.INFO
         try:
-            logging.basicConfig(level=log_level, filename=LOGFILE)
+            logging.basicConfig(level=log_level, filename=self.LOGFILE)
         except IOError  as e:
             logging.basicConfig(level=log_level)
             logging.warn("Error {0} encountered opening {1}".format(
@@ -184,6 +186,32 @@ class crawler:
                 pending.append(child_url)
                 resource_list[child_url]=new_resource
         logging.info("All queued items have been scanned.");
+    
+
+    def recrawl(self,id):
+        logging.info("Starting difference scan at {0}.".format(id))
+        #resource.set_domain(DOMAIN)
+        pid=os.getpid()
+        
+        create_scan_sql="""INSERT INTO scans(start_time,pid) 
+            VALUES (NOW(), %s) RETURNING scan_id;"""    
+        self.cur.execute(create_scan_sql, (pid,))#creates the new scan ID
+        scan_row=self.cur.fetchone()
+        self.scan_id=scan_row[0]
+
+        create_list_sql="""SELECT url FROM resources 
+            WHERE scan_id = %s AND http_response != 200 ;"""
+        self.cur.execute(create_list_sql,(id,))#retreaves old scan data
+        
+        resource_list={}
+        scan_results=self.cur.fetchall()
+       
+        for x in scan_results:
+            cur_resource=resource(x[0],self.scan_id)
+            cur_resource.fetch()
+            cur_resource.Sql_Call(self.cur)
+        
+        logging.info("All queued items have been scanned.");    
 
 def main():
     parser = argparse.ArgumentParser(description='Webcrawler')
@@ -217,7 +245,7 @@ def main():
     try:
         c=crawler(args.foreground)
         if (args.diff):
-            print("Not implemented")
+            c.recrawl(args.diff)
         else: 
             c.crawl(START_PAGE)
         c.dbclose()

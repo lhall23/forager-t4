@@ -12,7 +12,7 @@ DEBUG=False
 class resource:
     """Represent a URL/resource."""
 
-    DOMAIN_RESTRICTION=None
+    DOMAIN_RESTRICTION=""
     @staticmethod
     def get_domain(url):
         method_end=url.find('://') + 3
@@ -79,7 +79,7 @@ class resource:
         except requests.Timeout:
             logging.info("Timed out fetching page {0}".format(self.url))
             self.visited=True
-            self.response_code=-1
+            self.response_code=-2
             #page timed out not 404
             return
         except requests.RequestException as e:
@@ -113,6 +113,12 @@ class resource:
             msg="Not parsing contents of URL \"{0}\", outside of {1}"
             logging.debug(msg.format(self.url, resource.DOMAIN_RESTRICTION))
             return
+
+        # Catch null content-type header
+        if (not r.headers.get('content-type')):
+            msg="No content-type header on URL \"{0}\""
+            logging.debug(msg.format(self.url))
+            return 
 
         # Only try to parse html content
         if (not r.headers.get('content-type').startswith('text/html')):
