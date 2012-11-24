@@ -82,5 +82,38 @@ CREATE TABLE resource_children (
 COMMENT ON TABLE resource_children IS 'Edge set of the graph of the website.'
 	' Edges in the tree specified by parent_id also exist here.';
 
+DROP TABLE IF EXISTS http_responses CASCADE;
+CREATE TABLE http_responses (
+	http_response		INTEGER NOT NULL,
+	response_name		varchar
+);
+
+COMMENT ON TABLE http_responses IS 'Pretty lables for HTTP Response codes. '
+	'Responses >0 are defined in RFC 2616, 0< are error conditions '
+	'reported by the browser. We do not want inserts into the resources '
+	'table to fail if there is no label, so this is NOT treated as a formal ' 
+	'key.';
+
+INSERT INTO http_responses(http_response, response_name) VALUES
+	(-1, 'Unfetched resource'),
+	(-2, 'Timeout'),
+	(-3, 'Unknown error retrieving page'),
+	(-4, 'Library failure retrieving page'),
+	(200, 'OK'),
+	(301, 'Moved Permanently'),
+	(302, 'Found'),
+	(400, 'Bad Request'),
+	(401, 'Unauthorized'),
+	(403, 'Forbidden'),
+	(404, 'Not Found'),
+	(410, 'Gone'),
+	(415, 'Unsupported Media Type'),
+	(500, 'Internal Server Error'),
+	(503, 'Service Unavailable'),
+	(504, 'Gateway Timeout'),
+	(300, 'Multiple Choices'),
+	(999, 'Failure reading HTTP specification');
+
+
 COMMIT;
 

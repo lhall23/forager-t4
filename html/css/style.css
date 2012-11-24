@@ -22,14 +22,12 @@ img {
 		
 #header {
 	width:929px;
-	float:left;
 	background:url(../images/heaser-bg.jpg) no-repeat;
 	height:221px;
 	}	
 
 #nav {
 	width:929px;
-	float:left;
 	background:url(../images/nav-bg.jpg) repeat-x;
 	height:38px;
 	}		
@@ -221,7 +219,7 @@ table.display.table_num {
     text-align: center;
 }
 
-table.display.table_url {
+table.display.table_text {
     text-align: left;
 }
 
@@ -240,7 +238,7 @@ table.display th.table_num {
     width: 20px;
 }
 
-table.display th.table_url {
+table.display th.table_text {
     width: 200px;
 }
 
@@ -263,7 +261,7 @@ table.display td.table_num {
 	text-align: center;	
 }
 
-table.display td.table_url {
+table.display td.table_text {
 	text-align: left;	
 }
 

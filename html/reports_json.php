@@ -8,16 +8,19 @@ if(array_key_exists('scan_id',$_GET)) {
 }
 
 $query = "SELECT resource_id, url, 
-    date_trunc('minutes', start_date) AS start_date, 
-        response_time, http_response 
-    FROM resources WHERE scan_id = $1"; 
+        date_trunc('minutes', start_date) AS start_date, response_time, 
+        COALESCE(response_name, http_response || ' (Unknown Response)') 
+            AS http_response
+    FROM resources 
+    LEFT JOIN http_responses USING(http_response)
+    WHERE scan_id = $1"; 
 $reports = pg_query_params($conn, $query,array($scan_id));
 
 $columns=array(
     array("sTitle" => "Resource ID",     "sClass" => "table_num"),
-    array("sTitle" => "URL",             "sClass" => "table_url"),
+    array("sTitle" => "URL",             "sClass" => "table_text"),
     array("sTitle" => "Response Time",   "sClass" => "table_time"),
-    array("sTitle" => "HTTP Response",   "sClass" => "table_num")
+    array("sTitle" => "HTTP Response",   "sClass" => "table_text")
 );
 
 $data = array();

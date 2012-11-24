@@ -76,55 +76,53 @@ if (array_key_exists('logout', $_GET)){
   <link href="css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+
 <div id="header"> 
-<h1 id="logo-text"></h1>
+    <h1 id="logo-text"></h1>
 </div>
+
 <div id="nav">
-<ul>
-
-</ul>
+    <ul></ul>
 </div>
+
 <div class="site-content">
-<div id="col-left">
-<h1 class="h-text-1">LOGIN</h1>
+    <div id="col-left">
+        <h1 class="h-text-1">LOGIN</h1>
 
-<ul class="list-1">
-	<form action="login.php" method="post" id="login">
-		<table>
-            <tr>
-                <td>User Name:</td>
-                <td><input name="user_name" type="text"></td>
-            </tr>
-            <tr>
-                <td>Password:</td>
-                <td><input name="password" type="password"></td>
-            </tr>
-            <tr>
-                <td><input name="login" type="hidden"</td>
-                <td><input value="Login" type="submit"></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>
-<?php
-    if (array_key_exists('msg', $_GET)){
-        echo "$_GET[msg]";
-    }   
-?>
-                </td>
-            </tr>
-        </table>
-	</form>
-</ul>
+        <ul class="list-1">
+        <form action="login.php" method="post" id="login">
+            <table>
+                <tr>
+                    <td>User Name:</td>
+                    <td><input name="user_name" type="text"></td>
+                </tr>
+                <tr>
+                    <td>Password:</td>
+                    <td><input name="password" type="password"></td>
+                </tr>
+                <tr>
+                    <td><input name="login" type="hidden"</td>
+                    <td><input value="Login" type="submit"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <?php if (array_key_exists('msg', $_GET)){
+                                echo "$_GET[msg]"; } ?>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </ul>
 
 
-<div>&nbsp;</div>
+    <div>&nbsp;</div>
 
 
-</div>
+    </div>
 </div>
 
-<div id="footer">
-</div>
+<div id="footer"> </div>
+
 </body>
 </html>

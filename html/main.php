@@ -14,6 +14,10 @@ require_once('include/conf.php');
   <link href="css/style.css" rel="stylesheet" type="text/css">
 
   <script type="text/javascript">
+//Holds the ID of the scan currently being displayed.
+var current_scan;
+var current_data;
+
 function fetch_table(url){
         $.getJSON(
             url,
@@ -45,6 +49,19 @@ function show_scan(scan_id){
     fetch_table('reports_json.php?scan_id=' + scan_id);
 }
 
+function start_scan(){
+    $('#welcome_div').hide();
+    $('#data_div').show();
+    $('#progress_div').show();
+    $.getJSON(
+        'start_json.php',
+        function(data) {
+            current_scan=data['scan_id'];
+            fetch_table('reports_json.php?scan_id=' + current_scan);
+        }
+    );
+}
+
 $(document).ready(function() {
         fetch_table('scans_json.php');
 });
@@ -60,7 +77,6 @@ $(document).ready(function() {
   <li><a href="javascript:show_list()">View Reports</a></li>
   <li><a href="compare">Compare Reports</a></li>
   <li><a href="extra">Extra</a></li>
-  <li style="border-right: medium none;"><a href="#">Links</a></li>
 </ul>
 </div>
 <div id="welcome_div" class="site-content" style="display: inline">
@@ -118,11 +134,10 @@ Phone: 678-915-7778<br>
   used a template online, and changed it to our needs. This was to make sure
   that you know that we are not trying to pass this off as 100% our work!!-->
   <ul class="footer-nav">
-    <li><a href="main.php">Home</a></li>
-    <li><a href="start.php">Start a Scan</a></li>
-    <li><a href="scans.php">View Reports</a></li>
-    <li><a href="compare">Compare Reports</a></li>
-    <li><a href="extra">Extra</a></li>
+      <li><a href="javascript:show_home();">Home</a></li>
+      <li><a href="javascript:show_list()">View Reports</a></li>
+      <li><a href="compare">Compare Reports</a></li>
+      <li><a href="extra">Extra</a></li>
   </ul>
 </div>
 </body>

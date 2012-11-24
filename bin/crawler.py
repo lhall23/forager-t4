@@ -10,6 +10,7 @@ import signal
 import sys
 import os
 import argparse
+import traceback
 
 DEBUG=False
 CONN_STRING="dbname=forager user=apache"
@@ -48,6 +49,7 @@ class crawler:
         signal.signal(signal.SIGTERM, self.sig_handler)
         signal.signal(signal.SIGCONT, self.sig_handler)
         signal.signal(signal.SIGUSR1, self.sig_handler)
+        signal.signal(signal.SIGUSR2, self.sig_handler)
       
         if (not foreground): 
             logging.debug("Daemonizing process")
@@ -81,6 +83,9 @@ class crawler:
             signal.pause()
         elif (sig == signal.SIGCONT):
             logging.warn("Caught continue signal.")
+        elif (sig == signal.SIGUSR2):
+            logging.warn("Caught Liveness query.")
+            return
 
 
     def dbinit(self):
@@ -251,6 +256,7 @@ def main():
         c.dbclose()
     except Exception as e:
         logging.critical("Something exploded: {0}".format(e))
+        logging.critical("Traceback: {0}".format(traceback.format_exc()))
 
 if __name__ == "__main__":
     main()
