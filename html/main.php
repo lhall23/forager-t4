@@ -18,6 +18,14 @@ require_once('include/conf.php');
 var current_scan;
 var current_data;
 var current_table;
+var compare_one;
+var compare_two;
+var compare;
+
+function printpage()
+{
+window.print();
+}
 
 function fetch_table(url){
         $.getJSON(
@@ -40,18 +48,66 @@ function fetch_table(url){
 
 function show_home() {
     $('#welcome_div').show();
-    $('#data_div').hide();
+    $('#data_div').hide();	
 }
 
 function show_list(){
     $('#welcome_div').hide();
     $('#data_div').show();
+	compare = 2; // 2 = no comparing, 1 = in compare state no links clicked, 0 = In compare state one link clicked!!
     fetch_table('scans_json.php');
 }
+function compare_list(){
+    $('#welcome_div').hide();
+	$('#data_div').show();
+    $('#message_div').show();
+	
+    fetch_table('scans_json.php');
+	
+	$('#message_div').text("Select the first scan to compare");
+	compare = 1; // 1 = in compare state, 0 = Not in compare state!!
+
+}
+
+function select_scanId(scan_id)
+{
+
+if compare = 0 
+	{
+	fetch_table('compare_json.php?firstId=' + compare_one  + '&secondId=' + scan_id );  
+	}
+
+if(compare = 1)
+	{
+	compare_one = scan_id;
+	compare = 0;
+	}
+
+if(compare = 2)
+	{
+	show_scan(scan_id);
+	}
+
+}
+
+
+function choose_scan(scan_id){
+    $('#welcome_div').hide();
+    $('#data_div').show();
+	if(compare = )
+	{
+    fetch_table('reports_json.php?scan_id=' + scan_id);
+	}
+
+
+	}
+
+
 
 function show_scan(scan_id){
     $('#welcome_div').hide();
     $('#data_div').show();
+	
     fetch_table('reports_json.php?scan_id=' + scan_id);
 }
 
@@ -110,8 +166,10 @@ $(document).ready(function() {
           Start a Scan</a></li>
   <li><a href="javascript:show_list()">View Reports</a></li>
   <li><a href="compare">Compare Reports</a></li>
-  <li><a href="extra">Extra</a></li>
+  <li><a href="javascript:printpage()">Print</a></li>
 </ul>
+</div>
+<div id="message_div" style="display: none">
 </div>
 <div id="welcome_div" class="site-content" style="display: inline">
 <div id="col-left">

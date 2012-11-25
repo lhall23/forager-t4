@@ -19,7 +19,7 @@ $columns=array(
 $data = array();
 while($row = pg_fetch_array($scans)) {
     $data[]=array(
-    "<a href='javascript:show_scan($row[scan_id]);'>$row[scan_id]</a>",
+    "<a href='javascript:select_scanId($row[scan_id]);'>$row[scan_id]</a>",
     $row['start_time'], $row['end_time'], $row['elapsed_time']);
 }
 pg_free_result($scans);
