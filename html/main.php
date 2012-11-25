@@ -79,6 +79,7 @@ if (compare == 0)
 if(compare == 1)
 	{
 	compare_one = scan_id;
+	$('#message_div').text("Select the second scan to compare");
 	compare = 0;
 	}
 
@@ -88,18 +89,6 @@ if(compare == 2)
 	}
 
 }
-
-
-function choose_scan(scan_id){
-    $('#welcome_div').hide();
-    $('#data_div').show();
-	if(compare = )
-	{
-    fetch_table('reports_json.php?scan_id=' + scan_id);
-	}
-
-
-	}
 
 
 
