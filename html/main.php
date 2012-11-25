@@ -165,7 +165,7 @@ $(document).ready(function() {
   <li><a id="scan_control" href="javascript:control_scan('start')">
           Start a Scan</a></li>
   <li><a href="javascript:show_list()">View Reports</a></li>
-  <li><a href="compare">Compare Reports</a></li>
+  <li><a href="javascript:compare_list()">Compare Reports</a></li>
   <li><a href="javascript:printpage()">Print</a></li>
 </ul>
 </div>
