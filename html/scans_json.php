@@ -1,5 +1,6 @@
 <?php
 require_once("include/conf.php");
+require_once('include/json_session.php');
 
 $query = "SELECT scan_id, 
     DATE_TRUNC('minutes', start_time) AS start_time,
@@ -22,6 +23,11 @@ while($row = pg_fetch_array($scans)) {
     $row['start_time'], $row['end_time'], $row['elapsed_time']);
 }
 pg_free_result($scans);
-echo json_encode(array ("aoColumns" => $columns, "aaData" => $data));
+echo json_encode(
+    array (
+        "aoColumns" => $columns,
+        "aaData" => $data,
+        "valid_session" => True
+    ));
 ?>
 

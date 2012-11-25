@@ -5,7 +5,7 @@
  */
 
 require_once("include/conf.php");
-require_once("include/session.php");
+require_once("include/json_session.php");
 
 if(array_key_exists("scan_id", $_GET)){
     $scan_id=$_GET['scan_id'];
@@ -19,5 +19,6 @@ $sql="SELECT DISTINCT start_time,
     WHERE scan_id=$1";
 $res=pg_query_params($conn, $sql, array($scan_id));
 $row=pg_fetch_assoc($res);
+$row['valid_session']= True;
 echo json_encode($row);
 ?>

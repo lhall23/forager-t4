@@ -1,5 +1,6 @@
 <?php
 require_once("include/conf.php");
+require_once("include/json_session.php");
 
 if(array_key_exists('scan_id',$_GET)) {
 	$scan_id = $_GET['scan_id'];
@@ -29,6 +30,11 @@ while($row = pg_fetch_array($reports)) {
         $row['response_time'], $row['http_response']);
 }
 pg_free_result($reports);
-echo json_encode(array ("aoColumns" => $columns, "aaData" => $data));
+echo json_encode(
+    array (
+        "aoColumns" => $columns, 
+        "aaData" => $data,
+        "valid_session" => true
+    ));
 ?>
 

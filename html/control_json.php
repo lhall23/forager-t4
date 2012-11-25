@@ -4,7 +4,7 @@
  * -Lee Hall Sat 03 Nov 2012 06:50:57 PM EDT
  */
 require_once('include/conf.php');
-require_once('include/session.php');
+require_once('include/json_session.php');
 
 define('SIGBREAK', 2);      //SIGINT
 define('SIGPAUSE', 10);     //SIGUSR1
@@ -103,6 +103,7 @@ function get_status(){
 
     return
         array(
+            'valid_session' => True,
             'scan_id'   => $scan_id,
             'pid'       => $pid
         );

@@ -45,11 +45,11 @@ class crawler:
         if (DEBUG):
             logging.debug("Debugging enabled.")
 
-        signal.signal(signal.SIGINT, self.sig_handler)
-        signal.signal(signal.SIGTERM, self.sig_handler)
-        signal.signal(signal.SIGCONT, self.sig_handler)
-        signal.signal(signal.SIGUSR1, self.sig_handler)
-        signal.signal(signal.SIGUSR2, self.sig_handler)
+        signal.signal(signal.SIGINT, self.sig_close)
+        signal.signal(signal.SIGTERM, self.sig_close)
+        signal.signal(signal.SIGCONT, self.sig_cont)
+        signal.signal(signal.SIGUSR1, self.sig_pause)
+        signal.signal(signal.SIGUSR2, self.sig_query)
       
         if (not foreground): 
             logging.debug("Daemonizing process")
@@ -69,24 +69,24 @@ class crawler:
         else:
             logging.warn("Crawler exited before connecting to the database.")
 
-    def sig_handler(self,sig, frame):
+    def sig_close(self,sig, frame):
         if (sig == signal.SIGINT):
             logging.warn("Caught SIGINT. Exiting.")
-            self.dbclose()
-            sys.exit(0)
         elif (sig == signal.SIGTERM):
             logging.warn("Caught SIGTERM. Exiting.")
-            self.dbclose()
-            sys.exit(0)
-        elif (sig == signal.SIGUSR1):
-            logging.warn("Caught pause signal.")
-            signal.pause()
-        elif (sig == signal.SIGCONT):
-            logging.warn("Caught continue signal.")
-        elif (sig == signal.SIGUSR2):
+        self.dbclose()
+        sys.exit(0)
+
+    def sig_query(self,sig, frame):
             logging.warn("Caught Liveness query.")
             return
 
+    def sig_pause(self,sig, frame):
+        logging.warn("Caught pause signal.")
+        print(signal.sigwait((signal.SIGCONT,signal.SIGINT,signal.SIGTERM)))
+
+    def sig_cont(self,sig, frame):
+        logging.warn("Caught continue signal.")
 
     def dbinit(self):
 

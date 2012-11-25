@@ -17,17 +17,23 @@ require_once('include/conf.php');
 //Holds the ID of the scan currently being displayed.
 var current_scan;
 var current_data;
+var current_table;
 
 function fetch_table(url){
         $.getJSON(
             url,
             function(data) {
-                $('#display_table').dataTable({
+                if (! data['valid_session']){
+                    window.location.href = "login.php";
+                }
+
+                cur_table=$('#display_table').dataTable({
                     "bDestroy": true,
                     "sPaginationType": "full_numbers",
                     "aoColumns": data['aoColumns'],
                     "aaData": data['aaData']
                 });   
+                cur_table.fnAdjustColumnSizing();
             }
         );
 }
@@ -49,18 +55,45 @@ function show_scan(scan_id){
     fetch_table('reports_json.php?scan_id=' + scan_id);
 }
 
-function start_scan(){
-    $('#welcome_div').hide();
-    $('#data_div').show();
-    $('#progress_div').show();
+function control_scan(action){
     $.getJSON(
-        'start_json.php',
+        'control_json.php?a=' + action,
         function(data) {
+            if (! data['valid_session']){
+                window.location.href = "login.php";
+            }
             current_scan=data['scan_id'];
+            set_scan_state(current_scan);
             fetch_table('reports_json.php?scan_id=' + current_scan);
         }
     );
 }
+
+function set_scan_state(scan_id){
+    $('#welcome_div').hide();
+    $('#data_div').show();
+    $('#progress_div').show();
+    if (scan_id < 0) {
+        action="start";
+        $('#scan_control').text("Start a Scan");
+    } else {
+        action="stop";
+        $('#scan_control').text("Stop Scan");
+    }
+    $('#scan_control').attr('href', 'javascript:control_scan("' + action + '")');
+
+}
+
+function scan_status(){
+    $.getJSON(
+        'control_json.php?a=status',
+        function(data) {
+            current_scan=data['scan_id'];
+        }
+    );
+}
+
+
 
 $(document).ready(function() {
         fetch_table('scans_json.php');
@@ -73,7 +106,8 @@ $(document).ready(function() {
 <div id="nav">
 <ul>
   <li><a href="javascript:show_home();">Home</a></li>
-  <li><a href="start.php">Start a Scan</a></li>
+  <li><a id="scan_control" href="javascript:control_scan('start')">
+          Start a Scan</a></li>
   <li><a href="javascript:show_list()">View Reports</a></li>
   <li><a href="compare">Compare Reports</a></li>
   <li><a href="extra">Extra</a></li>
