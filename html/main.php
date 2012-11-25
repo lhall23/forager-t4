@@ -29,7 +29,7 @@ function fetch_table(url){
 
                 cur_table=$('#display_table').dataTable({
                     "bDestroy": true,
-                    "sPaginationType": "full_numbers",
+                    "sPaginationType": "scrolling",
                     "aoColumns": data['aoColumns'],
                     "aaData": data['aaData']
                 });   
