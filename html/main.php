@@ -71,8 +71,7 @@ function compare_list(){
 
 function select_scanId(scan_id)
 {
-
-if compare = 0 
+if (compare = 0)
 	{
 	fetch_table('compare_json.php?firstId=' + compare_one  + '&secondId=' + scan_id );  
 	}
