@@ -67,14 +67,14 @@ img {
 		
 .site-content {
 	width:929px;
-	float:left;
+	clear:both;
+	float: left;
 	background:url(../images/site-bg.jpg) repeat-y;
 	}
 	
 #col-right {
 	width:236px;
-	float:right;
-	
+	float:left;
 	}
 	
 #col-left {
