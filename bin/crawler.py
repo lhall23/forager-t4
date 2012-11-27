@@ -9,9 +9,9 @@ import logging
 import signal
 import sys
 import os
-import time
 import argparse
 import traceback
+
 
 DEBUG=False
 CONN_STRING="dbname=forager user=apache"
@@ -27,7 +27,6 @@ class crawler:
     def __init__(self, foreground=False):
         global LOGFILE
         self.LOGFILE=LOGFILE 
-        self.PAUSE=False
 
         if (foreground):
             self.LOGFILE=None
@@ -47,8 +46,9 @@ class crawler:
         if (DEBUG):
             logging.debug("Debugging enabled.")
 
-        signal.signal(signal.SIGINT, self.sig_close)
+        signal.signal(signal.SIGINT,  self.sig_close)
         signal.signal(signal.SIGTERM, self.sig_close)
+        signal.signal(signal.SIGALRM, self.sig_close)
         signal.signal(signal.SIGCONT, self.sig_cont)
         signal.signal(signal.SIGUSR1, self.sig_pause)
         signal.signal(signal.SIGUSR2, self.sig_query)
@@ -68,6 +68,7 @@ class crawler:
             self.cur.execute(set_term_sql,(self.scan_id,))
             self.cur.close()
             self.DB_Connection.close()
+            logging.warn("Recording times and closing database connections.")
         else:
             logging.warn("Crawler exited before connecting to the database.")
 
@@ -76,28 +77,21 @@ class crawler:
             logging.warn("Caught SIGINT. Exiting.")
         elif (sig == signal.SIGTERM):
             logging.warn("Caught SIGTERM. Exiting.")
+        elif (sig == signal.SIGALRM):
+            logging.warn("Allotted time has expired. Exiting.")
         self.dbclose()
         sys.exit(0)
 
     def sig_query(self,sig, frame):
-        logging.warn("Caught Liveness query.")
-        return
+            logging.warn("Caught Liveness query.")
+            return
 
     def sig_pause(self,sig, frame):
         logging.warn("Caught pause signal.")
-        if (self.PAUSE):
-            logging.warn("Already paused.")
-            return
-        self.PAUSE=True
-        while (self.PAUSE):
-            time.sleep(5)
-        logging.warn("Resuming execution.")
-        return
+        print(signal.sigwait((signal.SIGCONT,signal.SIGINT,signal.SIGTERM)))
 
     def sig_cont(self,sig, frame):
         logging.warn("Caught continue signal.")
-        self.PAUSE=False
-        return
 
     def dbinit(self):
 
@@ -203,10 +197,12 @@ class crawler:
                 resource_list[child_url]=new_resource
         logging.info("All queued items have been scanned.");
     
+    def time_handle(self, sig, frame):
+        print ("time is up ending webcrall")
+        sys.exit(1)#kill webcraller
 
     def recrawl(self,id):
         logging.info("Starting difference scan at {0}.".format(id))
-        #resource.set_domain(DOMAIN)
         pid=os.getpid()
         
         create_scan_sql="""INSERT INTO scans(start_time,pid) 
@@ -217,9 +213,8 @@ class crawler:
 
         create_list_sql="""SELECT url FROM resources 
             WHERE scan_id = %s AND http_response != 200 ;"""
-        self.cur.execute(create_list_sql,(id,))#retreaves old scan data
+        self.cur.execute(create_list_sql,(id,))#retrieves old scan data
         
-        resource_list={}
         scan_results=self.cur.fetchall()
        
         for x in scan_results:
@@ -243,6 +238,8 @@ def main():
     parser.add_argument('-R', action='append', dest="not_response", type=int, 
         help="Specifies what kind of links you DO NOT want " + \
         "to recheck (You may list as many you like, but you must specify -d)")
+    parser.add_argument('-t', action='store', dest="time", type=int,
+        help="Time scan funtion call")
     args=parser.parse_args(sys.argv[1:]) 
 
     if (args.verbose):
@@ -256,11 +253,19 @@ def main():
         print(msg)
         sys.exit(1)
     if (args.diff and not args.response and not args.not_response):
-        args.not_response=(404,)
+        args.response=(404,)
 
     try:
         c=crawler(args.foreground)
+        if (args.time):
+            msg="Halting scan in {0} seconds".format(args.time)
+            logging.warn(msg)
+            signal.ITIMER_REAL
+            signal.alarm(args.time)#starts alarm that goes off in time seconds
+
         if (args.diff):
+            msg="Rechecking scan {0}".format(args.diff)
+            logging.warn(msg)
             c.recrawl(args.diff)
         else: 
             c.crawl(START_PAGE)

@@ -65,27 +65,42 @@ function show_control() {
             }
             if( data['scan_id'] > 0){
                 current_scan=data['scan_id'];
-                fetch_table('reports_json.php?scan_id=' + current_scan);
                 $('#data_div').show();	
                 $('#start-button').hide();
                 $('#stop-button').show();
                 $('#pause-button').show();
                 $('#resume-button').hide();
+                $('#controller-params').hide(); 
+                fetch_table('reports_json.php?scan_id=' + current_scan);
             } else {
+                compare=3;
                 $('#start-button').show();
                 $('#stop-button').hide();
                 $('#pause-button').hide();
                 $('#resume-button').hide();
+                $('#controller-params').show(); 
             }
         }
     );
+}
+
+function show_comparison_list(){
+    $('#welcome_div').hide();
+    $('#data_div').show();
+    $('#controller_div').show();
+    compare = 3;// 3 = Starting comparison scan
+                // 2 = no comparing, 1 = in compare state no links clicked, 
+                // 0 = In compare state one link clicked!!
+    fetch_table('scans_json.php');
 }
 
 function show_list(){
     $('#welcome_div').hide();
     $('#data_div').show();
     $('#controller_div').hide();
-	compare = 2; // 2 = no comparing, 1 = in compare state no links clicked, 0 = In compare state one link clicked!!
+    compare = 2;// 3 = Starting comparison scan
+                // 2 = no comparing, 1 = in compare state no links clicked, 
+                // 0 = In compare state one link clicked!!
     fetch_table('scans_json.php');
 }
 function compare_list(){
@@ -120,6 +135,10 @@ if(compare == 2)
 	show_scan(scan_id);
 	}
 
+    if(compare==3){
+        $('#base_scan').val(scan_id);
+    }
+
 }
 
 function show_scan(scan_id){
@@ -129,17 +148,40 @@ function show_scan(scan_id){
 }
 
 function control_scan(action){
+    url='control_json.php?a=' + action;
+	$('#message_div').text("Select a basis scan.");
     if (action=='start'){
         $('#start-button').hide();
         $('#stop-button').show();
         $('#pause-button').show();
         $('#resume-button').hide();
+        $('#controller-params').hide(); 
         $('#data_div').show();
+        timeout=$('#timeout').val();
+        if(timeout){
+            if( (+timeout) == parseInt(timeout)){
+                url+='&t=' + timeout;
+            } else {
+                alert("Non-integer timeouts will be ignored.");
+                $('#timeout').val("");
+            }
+        }
+        base_scan=$('#base_scan').val();
+        if(base_scan){
+            if( (+base_scan) == parseInt(base_scan)){
+                url+='&d=' + base_scan;
+            } else {
+                $('#base_scan').val("");
+                alert("Non-integer scan ids will be ignored.");
+            }
+        }
     } else if (action=='stop'){
+        compare=3;
         $('#start-button').show();
         $('#stop-button').hide();
         $('#pause-button').hide();
         $('#resume-button').hide();
+        $('#controller-params').show(); 
     } else if (action=='pause'){
         $('#pause-button').hide();
         $('#resume-button').show();
@@ -147,8 +189,9 @@ function control_scan(action){
         $('#pause-button').show();
         $('#resume-button').hide();
     }
+
     $.getJSON(
-        'control_json.php?a=' + action,
+        url,
         function(data) {
             if (! data['valid_session']){
                 window.location.href = "login.php";
@@ -249,6 +292,22 @@ Phone: 678-915-7778<br>
             Stop
         </button>
     </a>
+    <div id="controller-params" class="site-content">
+        <table>
+            <tr>
+                <td>Timeout (minutes):</td> 
+                <td><input type="text" id="timeout"></td>
+            </tr>
+            <tr>
+                <td>Recheck Errors from Scan:</td> 
+                <td><input type="text" id="base_scan"></td>
+                <td>
+                    <a href="javascript:show_comparison_list()">
+                        (List Scans)</a>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>
 </form>
 <div id="data_div" class="site-content" style="display: none">

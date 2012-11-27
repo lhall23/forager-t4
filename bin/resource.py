@@ -75,7 +75,7 @@ class resource:
         start=time.time()
         try:
             # Don't verify SSL connections
-            r=requests.get(self.url, verify=False)
+            r=requests.get(self.url, verify=False, timeout=5)
         except requests.Timeout:
             logging.info("Timed out fetching page {0}".format(self.url))
             self.visited=True

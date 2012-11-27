@@ -18,7 +18,26 @@ if (!array_key_exists('a', $_GET)){
 
 switch ($_GET['a']){
     case 'start':
-        start();
+        $params=array();
+        //Set the timeout
+        if (array_key_exists('t', $_GET)){
+            $timeout=intval($_GET['t']);
+            if ($timeout==0){
+                trigger_error("Ignoring illegal timeout value");
+            } else {
+                $params['t']=$timeout * 60;
+            }
+        }
+        //Start a difference scan
+        if (array_key_exists('d', $_GET)){
+            $scan_id=intval($_GET['d']);
+            if ($scan_id==0){
+                trigger_error("Ignoring illegal scan_id value");
+            } else {
+                $params['d']=$scan_id;
+            }
+        }
+        start($params);
         break;
     case 'stop':
         stop();
@@ -51,15 +70,19 @@ function stop(){
     signal_running(SIGBREAK);
 }
 
-function start(){
+function start($params){
     $scan_id=get_running();
     if ($scan_id > 0){
         trigger_error("Scan already running with scan_id $scan_id.");
         return;
     }
 
-    trigger_error("Starting scanning process");
-    exec("/usr/local/src/forager/bin/crawler.py");
+    $cmd="/usr/local/src/forager/bin/crawler.py";
+    foreach ($params as $key => $value){
+        $cmd.=" -$key $value";
+    }
+    trigger_error("Starting scanning process with $cmd");
+    exec($cmd);
 
     $pass=0;
     while ($scan_id < 0 and $pass < 5) {
