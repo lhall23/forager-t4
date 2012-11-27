@@ -20,7 +20,8 @@ $query = "SELECT url,
             AS http_response1,
         COALESCE(r2.response_name, resource2.http_response ||
                 ' (Unknown Response)')
-            AS http_response2
+                AS http_response2,
+        resource1.response_time - resource2.response_time as runtime_delta
     FROM (SELECT * FROM resources WHERE scan_id=$1) AS resource1
     FULL JOIN (SELECT * FROM resources WHERE scan_id=$2) AS resource2
         USING(url)
@@ -32,15 +33,16 @@ $query = "SELECT url,
 $reports = pg_query_params($conn, $query,array($scan_id1, $scan_id2));
 
 $columns=array(
-    array("sTitle" => "URL",             "sClass" => "table_text"),
-    array("sTitle" => "First Report Response",   "sClass" => "table_text"),
-	array("sTitle" => "Second Report Response",  "sClass" => "table_text")
+    array("sTitle" => "URL",                    "sClass" => "table_text"),
+    array("sTitle" => "First Report Response",  "sClass" => "table_text"),
+	array("sTitle" => "Second Report Response", "sClass" => "table_text"),
+	array("sTitle" => "Run Time Change",        "sClass" => "table_time")
 );
 
 $data = array();
 while($row = pg_fetch_array($reports)) {
     $data[]=array($row['url'], $row['http_response1'], 
-        $row['http_response2']);
+        $row['http_response2'], $row['runtime_delta']);
 }
 pg_free_result($reports);
 echo json_encode(

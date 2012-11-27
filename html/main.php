@@ -12,6 +12,7 @@ require_once('include/conf.php');
  content="text/html; charset=iso-8859-1">
   <title>Group 4</title>
   <link href="css/style.css" rel="stylesheet" type="text/css">
+  <link href="css/buttons.css" rel="stylesheet" type="text/css">
 
   <script type="text/javascript">
 //Holds the ID of the scan currently being displayed.
@@ -49,11 +50,41 @@ function fetch_table(url){
 function show_home() {
     $('#welcome_div').show();
     $('#data_div').hide();	
+    $('#controller_div').hide();
+}
+
+function show_control() {
+    $('#welcome_div').hide();
+    $('#data_div').hide();	
+    $('#controller_div').show();
+    $.getJSON(
+        'control_json.php?a=status',
+        function(data) {
+            if (! data['valid_session']){
+                window.location.href = "login.php";
+            }
+            if( data['scan_id'] > 0){
+                current_scan=data['scan_id'];
+                fetch_table('reports_json.php?scan_id=' + current_scan);
+                $('#data_div').show();	
+                $('#start-button').hide();
+                $('#stop-button').show();
+                $('#pause-button').show();
+                $('#resume-button').hide();
+            } else {
+                $('#start-button').show();
+                $('#stop-button').hide();
+                $('#pause-button').hide();
+                $('#resume-button').hide();
+            }
+        }
+    );
 }
 
 function show_list(){
     $('#welcome_div').hide();
     $('#data_div').show();
+    $('#controller_div').hide();
 	compare = 2; // 2 = no comparing, 1 = in compare state no links clicked, 0 = In compare state one link clicked!!
     fetch_table('scans_json.php');
 }
@@ -61,6 +92,7 @@ function compare_list(){
     $('#welcome_div').hide();
 	$('#data_div').show();
     $('#message_div').show();
+    $('#controller_div').hide();
 	
     fetch_table('scans_json.php');
 	
@@ -90,58 +122,44 @@ if(compare == 2)
 
 }
 
-
-
 function show_scan(scan_id){
     $('#welcome_div').hide();
     $('#data_div').show();
-	
     fetch_table('reports_json.php?scan_id=' + scan_id);
 }
 
 function control_scan(action){
+    if (action=='start'){
+        $('#start-button').hide();
+        $('#stop-button').show();
+        $('#pause-button').show();
+        $('#resume-button').hide();
+        $('#data_div').show();
+    } else if (action=='stop'){
+        $('#start-button').show();
+        $('#stop-button').hide();
+        $('#pause-button').hide();
+        $('#resume-button').hide();
+    } else if (action=='pause'){
+        $('#pause-button').hide();
+        $('#resume-button').show();
+    } else if (action=='resume'){
+        $('#pause-button').show();
+        $('#resume-button').hide();
+    }
     $.getJSON(
         'control_json.php?a=' + action,
         function(data) {
             if (! data['valid_session']){
                 window.location.href = "login.php";
             }
-            current_scan=data['scan_id'];
-            set_scan_state(current_scan);
-            fetch_table('reports_json.php?scan_id=' + current_scan);
+            if (action=='start'){
+                current_scan=data['scan_id'];
+                fetch_table('reports_json.php?scan_id=' + current_scan);
+            }
         }
     );
 }
-
-function set_scan_state(scan_id){
-    $('#welcome_div').hide();
-    $('#data_div').show();
-    $('#progress_div').show();
-    if (scan_id < 0) {
-        action="start";
-        $('#scan_control').text("Start a Scan");
-    } else {
-        action="stop";
-        $('#scan_control').text("Stop Scan");
-    }
-    $('#scan_control').attr('href', 'javascript:control_scan("' + action + '")');
-
-}
-
-function scan_status(){
-    $.getJSON(
-        'control_json.php?a=status',
-        function(data) {
-            current_scan=data['scan_id'];
-        }
-    );
-}
-
-
-
-$(document).ready(function() {
-        fetch_table('scans_json.php');
-});
 
   </script>
 </head>
@@ -150,14 +168,14 @@ $(document).ready(function() {
 <div id="nav">
 <ul>
   <li><a href="javascript:show_home();">Home</a></li>
-  <li><a id="scan_control" href="javascript:control_scan('start')">
-          Start a Scan</a></li>
+  <li><a id="scan_control" href="javascript:show_control()">
+          Control a Scan</a></li>
   <li><a href="javascript:show_list()">View Reports</a></li>
   <li><a href="javascript:compare_list()">Compare Reports</a></li>
   <li><a href="javascript:printpage()">Print</a></li>
 </ul>
 </div>
-<div id="message_div" style="display: none">
+<div id="message_div" class="site-content" style="display: none">
 </div>
 <div id="welcome_div" class="site-content" style="display: inline">
 <div id="col-left">
@@ -199,6 +217,40 @@ Phone: 678-915-7778<br>
 </p></div>
 </div>
 </div>
+<div id="controller_div" class="buttons site-content" style="display: none">
+    <a id="resume-button" href="javascript:control_scan('resume');" 
+            class="regular">
+        <button class="control-button" name="resume">
+            <img src="images/bluedash.png" alt=""/>
+            Resume
+        </button>
+    </a>
+
+    <a id="pause-button" href="javascript:control_scan('pause');" 
+            class="regular">
+        <button class="control-button" name="pause">
+            <img src="images/greencheck.jpg" alt=""/>
+            Pause
+        </button>
+    </a>
+
+    <a id="start-button" href="javascript:control_scan('start');" 
+            class="regular">
+        <button class="control-button" name="pause">
+            <img src="images/redx.jpg" alt=""/>
+            Start
+        </button>
+    </a>
+
+    <a id="stop-button" href="javascript:control_scan('stop');" 
+            class="negative">
+        <button class="control-button" name="pause">
+            <img src="images/redx.jpg" alt=""/>
+            Stop
+        </button>
+    </a>
+</div>
+</form>
 <div id="data_div" class="site-content" style="display: none">
   <table cellpadding="0" cellspacing="0" border="0" class="display" 
 	  id="display_table">
