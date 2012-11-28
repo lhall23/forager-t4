@@ -20,8 +20,8 @@ var current_scan;
 var current_data;
 var current_table;
 var compare_one;
-var compare_two;
 var compare;
+var refresh;
 
 function printpage()
 {
@@ -34,7 +34,13 @@ function fetch_table(url){
             function(data) {
                 if (! data['valid_session']){
                     window.location.href = "login.php";
+					return;
                 }
+				//This autorefresh has been preempted
+				if (url != current_table){
+					alert(url + " != " + current_table);
+					return;
+				}
 
                 cur_table=$('#display_table').dataTable({
                     "bDestroy": true,
@@ -48,10 +54,15 @@ function fetch_table(url){
 }
 
 function show_home() {
+	window.clearInterval(refresh);
     $('#welcome_div').show();
     $('#message_div').hide();
     $('#data_div').hide();	
     $('#controller_div').hide();
+}
+
+function refresh_scan(){
+	fetch_table('reports_json.php?scan_id=' + current_scan);
 }
 
 function show_control() {
@@ -73,7 +84,9 @@ function show_control() {
                 $('#pause-button').show();
                 $('#resume-button').hide();
                 $('#controller-params').hide(); 
-                fetch_table('reports_json.php?scan_id=' + current_scan);
+				current_table='reports_json.php?scan_id=' + current_scan;
+                fetch_table(current_table);
+				refresh=window.setInterval(refresh_scan, 1000);
             } else {
                 compare=3;
                 $('#start-button').show();
@@ -81,12 +94,14 @@ function show_control() {
                 $('#pause-button').hide();
                 $('#resume-button').hide();
                 $('#controller-params').show(); 
+				window.clearInterval(refresh);
             }
         }
     );
 }
 
 function show_comparison_list(){
+	window.clearInterval(refresh);
     $('#welcome_div').hide();
     $('#data_div').show();
     $('#controller_div').show();
@@ -94,10 +109,12 @@ function show_comparison_list(){
     compare = 3;// 3 = Starting comparison scan
                 // 2 = no comparing, 1 = in compare state no links clicked, 
                 // 0 = In compare state one link clicked!!
-    fetch_table('scans_json.php');
+	current_table='scans_json.php';
+    fetch_table(current_table);
 }
 
 function show_list(){
+	window.clearInterval(refresh);
     $('#welcome_div').hide();
     $('#data_div').show();
     $('#controller_div').hide();
@@ -105,15 +122,18 @@ function show_list(){
     compare = 2;// 3 = Starting comparison scan
                 // 2 = no comparing, 1 = in compare state no links clicked, 
                 // 0 = In compare state one link clicked!!
-    fetch_table('scans_json.php');
+	current_table='scans_json.php';
+    fetch_table(current_table);
 }
 function compare_list(){
+	window.clearInterval(refresh);
     $('#welcome_div').hide();
 	$('#data_div').show();
     $('#message_div').show();
     $('#controller_div').hide();
-	
-    fetch_table('scans_json.php');
+
+	current_table='scans_json.php';
+    fetch_table(current_table);
 	
 	$('#message_div').text("Select the first scan to compare");
 	compare = 1; // 1 = in compare state, 0 = Not in compare state!!
@@ -124,7 +144,8 @@ function select_scanId(scan_id)
 {
 if (compare == 0)
 	{	
-	fetch_table('compare_json.php?firstId=' + compare_one  + '&secondId=' + scan_id );  
+	current_table='compare_json.php?firstId=' + compare_one  + '&secondId=' + scan_id ;
+	fetch_table(current_table);  
 	}
 
 if(compare == 1)
@@ -148,7 +169,8 @@ if(compare == 2)
 function show_scan(scan_id){
     $('#welcome_div').hide();
     $('#data_div').show();
-    fetch_table('reports_json.php?scan_id=' + scan_id);
+	current_table='reports_json.php?scan_id=' + scan_id;
+    fetch_table(current_table);
 }
 
 function control_scan(action){
@@ -202,7 +224,8 @@ function control_scan(action){
             }
             if (action=='start'){
                 current_scan=data['scan_id'];
-                fetch_table('reports_json.php?scan_id=' + current_scan);
+				current_table='reports_json.php?scan_id=' + current_scan;
+                fetch_table(current_table);
             }
         }
     );
