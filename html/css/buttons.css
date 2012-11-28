@@ -96,3 +96,100 @@ button.regular, .buttons a.regular{
     border:1px solid #6299c5;
     color:#fff;
 }
+
+/* Pagination controls and images from
+ * http://datatables.net/release-datatables/media/css/demo_table.css
+ */
+
+.dataTables_paginate {
+	float: left;
+	text-align: left;
+}
+
+.paginate_button_disabled {
+	height: 19px;
+	cursor: pointer;
+	*cursor: hand;
+	color: #111 !important;
+}
+.paginate_button_disabled:hover {
+	text-decoration: none !important;
+}
+.paginate_button_disabled:active {
+	outline: none;
+}
+
+.paginate_button_disabled.previous,
+.paginate_button_disabled.next {
+	color: #666 !important;
+}
+#display_table_previous {
+	padding-left: 23px;
+	padding-right: 10px;
+}
+#display_table_next {
+	padding-left: 10px;
+	padding-right: 23px;
+}
+
+.paginate_button_disabled.previous { 
+	background: url('../images/back_disabled.png') no-repeat top left;
+}
+
+.paginate_button.previous {
+	background: url('../images/back_enabled.png') no-repeat top left;
+}
+.paginate_button.previous:hover {
+	background: url('../images/back_enabled_hover.png') no-repeat top left;
+}
+
+.paginate_button_disabled.next {
+	background: url('../images/forward_disabled.png') no-repeat top right;
+}
+
+.paginate_button.next {
+	background: url('../images/forward_enabled.png') no-repeat top right;
+}
+.paginate_button.next:hover {
+	background: url('../images/forward_enabled_hover.png') no-repeat top right;
+}
+
+
+.paging_full_numbers {
+	width: 400px;
+	height: 22px;
+	line-height: 22px;
+}
+
+.paging_full_numbers a:active {
+	outline: none
+}
+
+.paging_full_numbers a:hover {
+	text-decoration: none;
+}
+
+.paging_full_numbers span.paginate_button,
+ 	.paging_full_numbers span.paginate_active {
+	border: 1px solid #aaa;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	padding: 2px 5px;
+	margin: 0 3px;
+	cursor: pointer;
+	*cursor: hand;
+	color: #333 !important;
+}
+
+.paging_full_numbers span.paginate_button {
+	background-color: #ddd;
+}
+
+.paging_full_numbers span.paginate_button:hover {
+	background-color: #ccc;
+	text-decoration: none !important;
+}
+
+.paging_full_numbers span.paginate_active {
+	background-color: #99B3FF;
+}

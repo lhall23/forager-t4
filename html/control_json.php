@@ -91,6 +91,7 @@ function start($params){
         if ($scan_id < 0){
             trigger_error("No scan running on pass $pass.");
         }
+        sleep(1);
     }
 
     if ($scan_id < 0){
