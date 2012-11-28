@@ -49,12 +49,14 @@ function fetch_table(url){
 
 function show_home() {
     $('#welcome_div').show();
+    $('#message_div').hide();
     $('#data_div').hide();	
     $('#controller_div').hide();
 }
 
 function show_control() {
     $('#welcome_div').hide();
+    $('#message_div').hide();
     $('#data_div').hide();	
     $('#controller_div').show();
     $.getJSON(
@@ -88,6 +90,7 @@ function show_comparison_list(){
     $('#welcome_div').hide();
     $('#data_div').show();
     $('#controller_div').show();
+    $('#message_div').hide();
     compare = 3;// 3 = Starting comparison scan
                 // 2 = no comparing, 1 = in compare state no links clicked, 
                 // 0 = In compare state one link clicked!!
@@ -98,6 +101,7 @@ function show_list(){
     $('#welcome_div').hide();
     $('#data_div').show();
     $('#controller_div').hide();
+    $('#message_div').hide();
     compare = 2;// 3 = Starting comparison scan
                 // 2 = no comparing, 1 = in compare state no links clicked, 
                 // 0 = In compare state one link clicked!!
@@ -220,78 +224,80 @@ function control_scan(action){
 </div>
 <div id="message_div" class="site-content" style="display: none">
 </div>
-<div id="welcome_div" class="site-content" style="display: inline">
-<div id="col-left">
-<h1 class="h-text-1">WELCOME</h1>
-<p class="text-1"><strong>Group 4 is an entity that strives to give its customer the best  software agent technology that is available. Our product is called Forager and it provides you with the following capabilities:</strong></p>
-<ul class="list-1">
-  <li>Scan any web site</li>
-  <li>Generate reports</li>
-  <li>Sort reports</li>
-  <li>Print reports</li>
-  <li>Run timed scans</li>
-</ul>
-<p class="text-1">Forager is a web crawler that scan, sorts and generates the reports that your company needs to maintain a efficient and secure web site for your customers.</p>
-<p class="border-1">&nbsp;</p>
-<h2 class="h-text-2">About us</h2>
-<p class="text-1">Group 4 is made up of professionals with over 20 years of joint experience in software development and database technologies. Based in Marietta, Georgia, Group 4 as been a staple in the web development community since mid-2012.</p>
-<p class="text-1">&nbsp;</p>
+<div id="welcome_div" class="site-content" style="display: block">
+	<div id="col-left">
+		<h1 class="h-text-1">WELCOME</h1>
+		<p class="text-1"><strong>Group 4 is an entity that strives to give its customer the best  software agent technology that is available. Our product is called Forager and it provides you with the following capabilities:</strong></p>
+		<ul class="list-1">
+		  <li>Scan any web site</li>
+		  <li>Generate reports</li>
+		  <li>Sort reports</li>
+		  <li>Print reports</li>
+		  <li>Run timed scans</li>
+		</ul>
+		<p class="text-1">Forager is a web crawler that scan, sorts and generates the reports that your company needs to maintain a efficient and secure web site for your customers.</p>
+		<p class="border-1">&nbsp;</p>
+		<h2 class="h-text-2">About us</h2>
+		<p class="text-1">Group 4 is made up of professionals with over 20 years of joint experience in software development and database technologies. Based in Marietta, Georgia, Group 4 as been a staple in the web development community since mid-2012.</p>
+		<p class="text-1">&nbsp;</p>
+	</div>
+	<div id="col-right">
+		<div style="padding: 30px 10px 10px;">
+			<h2 class="h-text-2">Latest News</h2>
+			<h3 class="h-text-3">Forager Version 1.0</h3>
+			<p class="text-2">Version 1.0 has been released. At the moment, forager is capable of searching the websites and populating a report that lists off the erros encountered.</p>
+		</div>
+		<div>&nbsp;</div>
+		<div style="padding: 5px 10px;">
+			<h2 class="h-text-2">Contact Info</h2>
+		</div>
+		<div style="padding: 5px 10px 15px; background: rgb(216, 214, 215) none repeat scroll 0%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">
+			<p class="text-2"> Southern Polytechnic State University.<br>
+			<br>
+			E.mail: Spsu@Spsu.edu<br>
+			<br>
+			Fax: 678-915-7778<br>
+			<br>
+			Phone: 678-915-7778<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</p>
+		</div>
+	</div>
 </div>
-<div id="col-right">
-<div style="padding: 30px 10px 10px;">
-<h2 class="h-text-2">Latest News</h2>
-<h3 class="h-text-3">Forager Version 1.0</h3>
-<p class="text-2">Version 1.0 has been released. At the moment, forager is capable of searching the websites and populating a report that lists off the erros encountered.</p>
-</div>
-<div>&nbsp;</div>
-<div style="padding: 5px 10px;">
-<h2 class="h-text-2">Contact Info</h2>
-</div>
-<div
- style="padding: 5px 10px 15px; background: rgb(216, 214, 215) none repeat scroll 0%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">
-<p class="text-2"> Southern Polytechnic State University.<br>
-<br>
-E.mail: Spsu@Spsu.edu<br>
-<br>
-Fax: 678-915-7778<br>
-<br>
-Phone: 678-915-7778<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</p></div>
-</div>
-</div>
-<div id="controller_div" class="buttons site-content" style="display: none">
-    <a id="resume-button" href="javascript:control_scan('resume');" 
-            class="regular">
-        <button class="control-button" name="resume">
-            <img src="images/bluedash.png" alt=""/>
-            Resume
-        </button>
-    </a>
+<div id="controller_div" class="site-content" style="display: none">
+	<div id="main-controls">
+		<a id="resume-button" href="javascript:control_scan('resume');" 
+				class="regular">
+			<button class="control-button" name="resume">
+				<img src="images/bluedash.png" alt=""/>
+				Resume
+			</button>
+		</a>
 
-    <a id="pause-button" href="javascript:control_scan('pause');" 
-            class="regular">
-        <button class="control-button" name="pause">
-            <img src="images/greencheck.jpg" alt=""/>
-            Pause
-        </button>
-    </a>
+		<a id="pause-button" href="javascript:control_scan('pause');" 
+				class="regular">
+			<button class="control-button" name="pause">
+				<img src="images/greencheck.jpg" alt=""/>
+				Pause
+			</button>
+		</a>
 
-    <a id="start-button" href="javascript:control_scan('start');" 
-            class="regular">
-        <button class="control-button" name="pause">
-            <img src="images/redx.jpg" alt=""/>
-            Start
-        </button>
-    </a>
+		<a id="start-button" href="javascript:control_scan('start');" 
+				class="regular">
+			<button class="control-button" name="pause">
+				<img src="images/redx.jpg" alt=""/>
+				Start
+			</button>
+		</a>
 
-    <a id="stop-button" href="javascript:control_scan('stop');" 
-            class="negative">
-        <button class="control-button" name="pause">
-            <img src="images/redx.jpg" alt=""/>
-            Stop
-        </button>
-    </a>
+		<a id="stop-button" href="javascript:control_scan('stop');" 
+				class="negative">
+			<button class="control-button" name="pause">
+				<img src="images/redx.jpg" alt=""/>
+				Stop
+			</button>
+		</a>
+	</div>
     <div id="controller-params" class="site-content">
         <table>
             <tr>
@@ -309,7 +315,6 @@ Phone: 678-915-7778<br>
         </table>
     </div>
 </div>
-</form>
 <div id="data_div" class="site-content" style="display: none">
   <table cellpadding="0" cellspacing="0" border="0" class="display" 
 	  id="display_table">
