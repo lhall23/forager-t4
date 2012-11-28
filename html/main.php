@@ -19,6 +19,7 @@ require_once('include/conf.php');
 var current_scan;
 var current_data;
 var current_table;
+var current_table_url;
 var compare_one;
 var compare;
 var refresh;
@@ -26,6 +27,26 @@ var refresh;
 function printpage()
 {
 window.print();
+}
+
+function update_table(url){
+        $.getJSON(
+            url,
+            function(data) {
+                if (! data['valid_session']){
+                    window.location.href = "login.php";
+					return;
+                }
+				//This autorefresh has been preempted
+				if (url != current_table_url){
+					return;
+				}
+
+                current_table.fnClearTable(false);
+				current_table.fnAddData(data['aaData']);
+                current_table.fnAdjustColumnSizing();
+            }
+        );
 }
 
 function fetch_table(url){
@@ -36,19 +57,14 @@ function fetch_table(url){
                     window.location.href = "login.php";
 					return;
                 }
-				//This autorefresh has been preempted
-				if (url != current_table){
-					alert(url + " != " + current_table);
-					return;
-				}
 
-                cur_table=$('#display_table').dataTable({
+                current_table=$('#display_table').dataTable({
                     "bDestroy": true,
                     "sPaginationType": "full_numbers",
                     "aoColumns": data['aoColumns'],
                     "aaData": data['aaData']
                 });   
-                cur_table.fnAdjustColumnSizing();
+                current_table.fnAdjustColumnSizing();
             }
         );
 }
@@ -62,7 +78,7 @@ function show_home() {
 }
 
 function refresh_scan(){
-	fetch_table('reports_json.php?scan_id=' + current_scan);
+	update_table('reports_json.php?scan_id=' + current_scan);
 }
 
 function show_control() {
@@ -84,8 +100,8 @@ function show_control() {
                 $('#pause-button').show();
                 $('#resume-button').hide();
                 $('#controller-params').hide(); 
-				current_table='reports_json.php?scan_id=' + current_scan;
-                fetch_table(current_table);
+				current_table_url='reports_json.php?scan_id=' + current_scan;
+                fetch_table(current_table_url);
 				refresh=window.setInterval(refresh_scan, 1000);
             } else {
                 compare=3;
@@ -109,8 +125,8 @@ function show_comparison_list(){
     compare = 3;// 3 = Starting comparison scan
                 // 2 = no comparing, 1 = in compare state no links clicked, 
                 // 0 = In compare state one link clicked!!
-	current_table='scans_json.php';
-    fetch_table(current_table);
+	current_table_url='scans_json.php';
+    fetch_table(current_table_url);
 }
 
 function show_list(){
@@ -122,8 +138,8 @@ function show_list(){
     compare = 2;// 3 = Starting comparison scan
                 // 2 = no comparing, 1 = in compare state no links clicked, 
                 // 0 = In compare state one link clicked!!
-	current_table='scans_json.php';
-    fetch_table(current_table);
+	current_table_url='scans_json.php';
+    fetch_table(current_table_url);
 }
 function compare_list(){
 	window.clearInterval(refresh);
@@ -132,8 +148,8 @@ function compare_list(){
     $('#message_div').show();
     $('#controller_div').hide();
 
-	current_table='scans_json.php';
-    fetch_table(current_table);
+	current_table_url='scans_json.php';
+    fetch_table(current_table_url);
 	
 	$('#message_div').text("Select the first scan to compare");
 	compare = 1; // 1 = in compare state, 0 = Not in compare state!!
@@ -144,8 +160,8 @@ function select_scanId(scan_id)
 {
 if (compare == 0)
 	{	
-	current_table='compare_json.php?firstId=' + compare_one  + '&secondId=' + scan_id ;
-	fetch_table(current_table);  
+	current_table_url='compare_json.php?firstId=' + compare_one  + '&secondId=' + scan_id ;
+	fetch_table(current_table_url);  
 	}
 
 if(compare == 1)
@@ -169,8 +185,8 @@ if(compare == 2)
 function show_scan(scan_id){
     $('#welcome_div').hide();
     $('#data_div').show();
-	current_table='reports_json.php?scan_id=' + scan_id;
-    fetch_table(current_table);
+	current_table_url='reports_json.php?scan_id=' + scan_id;
+    fetch_table(current_table_url);
 }
 
 function control_scan(action){
@@ -224,8 +240,8 @@ function control_scan(action){
             }
             if (action=='start'){
                 current_scan=data['scan_id'];
-				current_table='reports_json.php?scan_id=' + current_scan;
-                fetch_table(current_table);
+				current_table_url='reports_json.php?scan_id=' + current_scan;
+                fetch_table(current_table_url);
             }
         }
     );
