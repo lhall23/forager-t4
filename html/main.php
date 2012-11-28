@@ -30,8 +30,9 @@ window.print();
 }
 
 function update_table(url){
+		offset_url = url + "&offset=" + current_table.fnGetData().length;
         $.getJSON(
-            url,
+            offset_url,
             function(data) {
                 if (! data['valid_session']){
                     window.location.href = "login.php";
@@ -39,12 +40,11 @@ function update_table(url){
                 }
 				//This autorefresh has been preempted
 				if (url != current_table_url){
+					window.clearInterval(refresh);
 					return;
 				}
 
-                current_table.fnClearTable(false);
 				current_table.fnAddData(data['aaData']);
-                current_table.fnAdjustColumnSizing();
             }
         );
 }
@@ -102,6 +102,7 @@ function show_control() {
                 $('#controller-params').hide(); 
 				current_table_url='reports_json.php?scan_id=' + current_scan;
                 fetch_table(current_table_url);
+				window.clearInterval(refresh);
 				refresh=window.setInterval(refresh_scan, 1000);
             } else {
                 compare=3;
@@ -191,7 +192,7 @@ function show_scan(scan_id){
 
 function control_scan(action){
     url='control_json.php?a=' + action;
-	$('#message_div').text("Select a basis scan.");
+	$('#message_div').text("You may select a basis scan.");
     if (action=='start'){
         $('#start-button').hide();
         $('#stop-button').show();
@@ -224,9 +225,11 @@ function control_scan(action){
         $('#pause-button').hide();
         $('#resume-button').hide();
         $('#controller-params').show(); 
+		window.clearInterval(refresh);
     } else if (action=='pause'){
         $('#pause-button').hide();
         $('#resume-button').show();
+		window.clearInterval(refresh);
     } else if (action=='resume'){
         $('#pause-button').show();
         $('#resume-button').hide();
@@ -243,6 +246,10 @@ function control_scan(action){
 				current_table_url='reports_json.php?scan_id=' + current_scan;
                 fetch_table(current_table_url);
             }
+			if (action=='start' || action=='pause'){
+				window.clearInterval(refresh);
+				refresh=window.setInterval(refresh_scan, 1000);
+			}
         }
     );
 }

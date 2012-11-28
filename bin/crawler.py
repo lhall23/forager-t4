@@ -9,9 +9,9 @@ import logging
 import signal
 import sys
 import os
+import time
 import argparse
 import traceback
-
 
 DEBUG=False
 CONN_STRING="dbname=forager user=apache"
@@ -27,6 +27,7 @@ class crawler:
     def __init__(self, foreground=False):
         global LOGFILE
         self.LOGFILE=LOGFILE 
+        self.PAUSE=False
 
         if (foreground):
             self.LOGFILE=None
@@ -46,7 +47,7 @@ class crawler:
         if (DEBUG):
             logging.debug("Debugging enabled.")
 
-        signal.signal(signal.SIGINT,  self.sig_close)
+        signal.signal(signal.SIGINT, self.sig_close)
         signal.signal(signal.SIGTERM, self.sig_close)
         signal.signal(signal.SIGALRM, self.sig_close)
         signal.signal(signal.SIGCONT, self.sig_cont)
@@ -83,15 +84,24 @@ class crawler:
         sys.exit(0)
 
     def sig_query(self,sig, frame):
-            logging.warn("Caught Liveness query.")
-            return
+        logging.warn("Caught Liveness query.")
+        return
 
     def sig_pause(self,sig, frame):
         logging.warn("Caught pause signal.")
-        print(signal.sigwait((signal.SIGCONT,signal.SIGINT,signal.SIGTERM)))
+        if (self.PAUSE):
+            logging.warn("Already paused.")
+            return
+        self.PAUSE=True
+        while (self.PAUSE):
+            time.sleep(5)
+        logging.warn("Resuming execution.")
+        return
 
     def sig_cont(self,sig, frame):
         logging.warn("Caught continue signal.")
+        self.PAUSE=False
+        return
 
     def dbinit(self):
 
@@ -197,9 +207,6 @@ class crawler:
                 resource_list[child_url]=new_resource
         logging.info("All queued items have been scanned.");
     
-    def time_handle(self, sig, frame):
-        print ("time is up ending webcrall")
-        sys.exit(1)#kill webcraller
 
     def recrawl(self,id):
         logging.info("Starting difference scan at {0}.".format(id))
@@ -213,8 +220,9 @@ class crawler:
 
         create_list_sql="""SELECT url FROM resources 
             WHERE scan_id = %s AND http_response != 200 ;"""
-        self.cur.execute(create_list_sql,(id,))#retrieves old scan data
+        self.cur.execute(create_list_sql,(id,))#retreaves old scan data
         
+        resource_list={}
         scan_results=self.cur.fetchall()
        
         for x in scan_results:

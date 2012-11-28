@@ -14,8 +14,15 @@ $query = "SELECT resource_id, url,
             AS http_response
     FROM resources 
     LEFT JOIN http_responses USING(http_response)
-    WHERE scan_id = $1"; 
-$reports = pg_query_params($conn, $query,array($scan_id));
+    WHERE scan_id = $1
+	ORDER BY resource_id"; 
+$params=array($scan_id);
+if (array_key_exists('offset', $_GET)) {
+	$params[]=$_GET['offset'];
+	$query.= " OFFSET $2";
+}
+
+$reports = pg_query_params($conn, $query,$params);
 
 $columns=array(
     array("sTitle" => "Resource ID",     "sClass" => "table_num"),
