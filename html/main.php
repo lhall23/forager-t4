@@ -6,7 +6,7 @@ require_once('include/conf.php');
 ?>
 
 <script src="/javascript/jquery/jquery.js"></script>
-<script src="js/jquery.dataTables.js"></script>
+<script src="js/jquery.dataTables.min.js"></script>
 <head>
 	  <meta http-equiv="Content-Type"
  content="text/html; charset=iso-8859-1">
@@ -317,7 +317,7 @@ function control_scan(action){
 </div>
 <div id="data_div" class="site-content" style="display: none">
   <table cellpadding="0" cellspacing="0" border="0" class="display" 
-	  id="display_table">
+	  id="display_table" width="100%">
 	<thead></thead>
 	<tbody></tbody>
   </table>
