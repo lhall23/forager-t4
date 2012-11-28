@@ -133,7 +133,7 @@ button.regular, .buttons a.regular{
 }
 
 .paginate_button_disabled.previous { 
-	background: url('../images/back_disabled.png') no-repeat top left;
+	background: url('../images/back_disabled.jpg') no-repeat top left;
 }
 
 .paginate_button.previous {
