@@ -48,7 +48,6 @@ Minutes.pdf: Minutes templates/pdf_tmpl.tex
 		templates/pdf_tmpl.tex > $</$<.tex 
 	cd $<; \
 		$(PDFLATEX) $<.tex; \
-		rm $<_list.pdf; \
 		mv $@ .. 
 
 # Uncompiled, need to create File.
@@ -63,7 +62,6 @@ Email.pdf: Email
 	cd $<; \
 		$(XPS2PDF) email.xps $<_list.pdf; \
 		$(PDFLATEX) $<.tex; \
-		rm $<_list.pdf; \
 		mv $@ .. 
 	mv $@ Appendix-$(APP_SEC)_$@
 
@@ -90,5 +88,4 @@ Commit_Logs.pdf: Commit_Logs templates/txt_tmpl.tex
 		templates/txt_tmpl.tex > $</$<.tex 
 	cd $<; \
 		$(PDFLATEX) $<.tex; \
-		rm $<_list.txt; \
 		mv $@ .. 

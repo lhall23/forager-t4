@@ -10,6 +10,7 @@ html/test/why.wmv
 #These should be regenerated every time
 *mbox.orig
 *_list.pdf
+docs/*/*_list.*
 docs/Source/Source.pdf
 docs/Source/Source.tex
 docs/Appendix-D_Email.pdf
