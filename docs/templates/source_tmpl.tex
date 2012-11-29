@@ -1,0 +1,42 @@
+\documentclass{article}
+\newcommand{\Title}{<<TITLE>>}
+\newcommand{\Author}{Lee Hall}
+\newcommand{\Date}{Thu 20 Sep 2012 12:30:21 PM EDT}
+\usepackage{url}
+\usepackage[T1]{fontenc}
+\usepackage{amsfonts,amsmath,amssymb,amsthm}
+\usepackage{listings}
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\cfoot[\thepage]{<<APP_SEC>>-\thepage}
+\InputIfFileExists{header.tex}{}{
+	\title{\Title}
+	\author{\Author}
+	\date{\Date}
+}
+
+\begin{document}
+\section{Schema}
+\lstinputlisting{../../forager.sql}
+\section{Crawler}
+\lstinputlisting{../../bin/resource.py}
+\lstinputlisting{../../bin/crawler.py}
+\section{Web Interface}
+\lstinputlisting{../../html/index.php}
+\lstinputlisting{../../html/main.php}
+\lstinputlisting{../../html/login.php}
+\section{JSON - Report Generation}
+\lstinputlisting{../../html/scans_json.php}
+\lstinputlisting{../../html/reports_json.php}
+\lstinputlisting{../../html/compare_json.php}
+\section{JSON - Crawler Interaction}
+\lstinputlisting{../../html/control_json.php}
+\section{Library Functions}
+\lstinputlisting{../../html/include/json_session.php}
+\lstinputlisting{../../html/include/session.php}
+\lstinputlisting{../../html/include/conf.php}
+\section{Styling}
+\lstinputlisting{../../html/css/style.css}
+\lstinputlisting{../../html/css/buttons.css}
+\end{document}
