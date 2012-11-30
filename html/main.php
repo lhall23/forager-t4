@@ -268,7 +268,7 @@ function control_scan(action){
 		<div style="padding: 30px 10px 10px;">
 			<h2 class="h-text-2">Latest News</h2>
 			<h3 class="h-text-3">Forager Version 2.0</h3>
-			<p class="text-2">Version 2.0 has been released as of 11/29/2012. Forager is now capable of controling a scan from the website. This includes runtime limits, starting, pausing and stopping scans. You can also run a scan based on a previous scan. Comparing two reports to each other is also functional.</p>	
+			<p class="text-2">Version 2.0 has been released as of 11/29/2012. Forager is now capable of controling a scan from the website. This includes runtime limits, starting, pausing and stopping scans. You can also run a scan based on a previous scan. Comparing two reports to each other is also functioning.</p>	
 			<h4 class="h-text-3">Forager Version 1.0</h4>
 			<p class="text-2">Version 1.0 has been released. At the moment, forager is capable of searching the websites and populating a report that lists off the errors encountered.</p>
 		</div>
