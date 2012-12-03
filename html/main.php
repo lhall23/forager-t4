@@ -317,7 +317,7 @@ function control_scan(action){
 		<a id="resume-button" href="javascript:control_scan('resume');" 
 				class="regular">
 			<button class="control-button" name="resume">
-				<img src="images/bluedash.png" alt=""/>
+				<img src="images/bluedash.jpg" alt=""/>
 				Resume
 			</button>
 		</a>
@@ -325,7 +325,7 @@ function control_scan(action){
 		<a id="pause-button" href="javascript:control_scan('pause');" 
 				class="regular">
 			<button class="control-button" name="pause">
-				<img src="images/greencheck.jpg" alt=""/>
+				<img src="images/bluedash.jpg" alt=""/>
 				Pause
 			</button>
 		</a>
@@ -333,7 +333,7 @@ function control_scan(action){
 		<a id="start-button" href="javascript:control_scan('start');" 
 				class="regular">
 			<button class="control-button" name="pause">
-				<img src="images/redx.jpg" alt=""/>
+				<img src="images/greencheck.jpg" alt=""/>
 				Start
 			</button>
 		</a>
